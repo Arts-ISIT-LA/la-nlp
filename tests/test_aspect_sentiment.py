@@ -67,7 +67,7 @@ def test_parent_span(doc1, doc2):
 
     assertion2 = "Span should read 'that does not contain any target aspects'"
     doc2_target = 'that does not contain any target aspects'
-    token2 = doc2[-2]
+    token2 = doc2[-3]
     assert token2._.parent_span.text == doc2_target, assertion2
 
 def test_aspect_spans(doc1, doc2):
