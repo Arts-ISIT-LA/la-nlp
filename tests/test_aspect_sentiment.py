@@ -32,3 +32,15 @@ def test_contains_aspect():
 
     assertion1 = "doc2 should return False"
     assert doc2._.contains_aspect == False
+
+def test_aspects_contained():
+    doc1 = make_doc(TEST_TEXT_1)
+    doc2 = make_doc(TEST_TEXT_2)
+
+    assertion1 = "doc1 should contain 'course', 'content', and 'instructor'"
+    doc1_aspects = ['course', 'content', 'instructor']
+    assert doc1._.aspects_contained == doc1_aspects, assertion1
+
+    assertion2 = "doc2 should contain None"
+    doc2_aspects = None
+    assert doc2._.aspects_contained == doc2_aspects, assertion2
