@@ -109,12 +109,11 @@ def aspect_sentiments(doc):
 
     aspect_sentiments = {aspect:None for aspect in ASPECTS}
 
-    for aspect in doc._.aspects_contained:
-        scores = []
-        for keyword in ASPECTS[aspect]:
-            scores.append(keyword._.parent_span._.sentiment)
-        sentiment = sum(scores) / len(scores)
-        aspect_sentiments[aspect] = sentiment
+    if doc._.keywords != None:
+        for keyword in doc._.keywords:
+            aspect = keyword._.aspect
+            sentiment = keyword._.parent_span._.sentiment
+            aspect_sentiments[aspect] = sentiment
     
     doc._.aspect_sentiments = aspect_sentiments
 
