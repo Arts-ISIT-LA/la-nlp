@@ -70,5 +70,9 @@ def test_parent_span(doc1, doc2):
     token2 = doc2[-3]
     assert token2._.parent_span.text == doc2_target, assertion2
 
-def test_aspect_spans(doc1, doc2):
-    assert True
+def test_parent_span_sentiment(doc1, doc2):
+    assertion = "course parent span sentiment should be 0.286"
+    span = doc1._.keywords[0]._.parent_span
+    target_sentiment = 0.2846
+
+    assert span._.sentiment == target_sentiment, assertion
