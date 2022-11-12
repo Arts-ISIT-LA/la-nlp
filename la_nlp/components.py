@@ -48,4 +48,19 @@ def keywords(doc):
 
 def parent_span(doc):
     set_extension('parent_span', target_obj=Token)
+
+    for token in doc:
+        head = token.head
+        siblings = head.children
+        indices = [token.i for token in siblings]
+        indices.append(head.i)
+        indices.sort()
+        first = indices[0]
+        last = indices[-1] + 1
+        if last >= len(doc):
+            span = doc[first:]
+        else:
+            span = doc[first:last]
+        token._.parent_span = span          
+
     return doc
