@@ -1,4 +1,4 @@
-from la_nlp.aspect_sentiment import *
+from la_nlp.aspect_sentiment_pipe import *
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
