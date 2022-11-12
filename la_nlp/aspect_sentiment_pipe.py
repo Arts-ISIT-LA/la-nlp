@@ -25,5 +25,23 @@ def contains_aspect(doc):
     
     return doc
 
+@Language.component('aspects_contained')
+def aspects_contained(doc):
+    if not Doc.has_extension('aspects_contained'):
+        Doc.set_extension('aspects_contained', default=None)
+    
+    if doc._.contains_aspect == True:
+        aspects_contained = []
+        for token in doc:
+            for aspect in ASPECTS:
+                if aspect in aspects_contained:
+                    continue
+                keywords = ASPECTS[aspect]
+                if token.lemma_.lower() in keywords:
+                    aspects_contained.append(aspect)
+        doc._.aspects_contained = aspects_contained
+    return doc
+
 
 NLP.add_pipe('contains_aspect', last=True)
+NLP.add_pipe('aspects_contained', last=True)
