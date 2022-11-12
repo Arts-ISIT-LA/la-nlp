@@ -59,6 +59,13 @@ def test_keywords(doc1, doc2):
     doc2_targets = None
     assert doc2._.keywords == doc2_targets, assertion2
 
+def test_keyword_aspects(doc1):
+    assertion = "%s aspect should be %s"
+    target_aspects = ['course', 'content', 'instructor']
+    for keyword, aspect in zip(doc1._.keywords, target_aspects):
+        assert keyword._.aspect == aspect, assertion % (keyword.text, aspect)
+
+
 def test_parent_span(doc1, doc2):
     assertion1 = "Span should read 'professor was mean'"
     doc1_target = 'professor was mean'
