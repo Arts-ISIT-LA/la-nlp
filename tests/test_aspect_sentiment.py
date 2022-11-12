@@ -48,5 +48,17 @@ def test_aspects_contained(doc1, doc2):
     doc2_aspects = None
     assert doc2._.aspects_contained == doc2_aspects, assertion2
 
+def test_keywords(doc1, doc2):
+    assertion1 = "doc1 should contain keyword %s"
+    doc1_keywords = ['course', 'reading', 'professor']
+    for keyword in doc1._.keywords:
+        kw = keyword.lemma_.lower()
+        assert kw in doc1_keywords, assertion1 % kw
+    
+    assertion2 = "doc2 should contain no keywords"
+    doc2_keywords = None
+    assert doc2._.keywords == doc2_keywords, assertion2
+
+
 def test_aspect_spans(doc1, doc2):
     assert True
