@@ -84,3 +84,19 @@ def parent_span_sentiment(doc, include_non_keywords=False):
         token._.parent_span._.sentiment = sentiment
     
     return doc
+
+def aspect_sentiments(doc):
+    set_extension('aspect_sentiments')
+
+    aspect_sentiments = {aspect:None for aspect in ASPECTS}
+
+    for aspect in doc._.aspects_contained:
+        scores = []
+        for keyword in ASPECTS[aspect]:
+            scores.append(keyword._.parent_span._.sentiment)
+        sentiment = sum(scores) / len(scores)
+        aspect_sentiments[aspect] = sentiment
+    
+    doc._.aspect_sentiments = aspect_sentiments
+
+    return doc

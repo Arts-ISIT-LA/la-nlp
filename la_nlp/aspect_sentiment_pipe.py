@@ -14,6 +14,7 @@ def aspect_sentiment_pipe(doc):
     doc = keywords(doc)
     doc = parent_span(doc)
     doc = parent_span_sentiment(doc)
+    doc = aspect_sentiments(doc)
     return doc
 
 NLP.add_pipe('aspect_sentiment_pipe')
