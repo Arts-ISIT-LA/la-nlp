@@ -28,10 +28,10 @@ def test_contains_aspect():
     doc2 = make_doc(TEST_TEXT_2)
 
     assertion1 = "doc1 should return True"
-    assert doc1._.contains_aspect == True
+    assert doc1._.contains_aspect == True, assertion1
 
-    assertion1 = "doc2 should return False"
-    assert doc2._.contains_aspect == False
+    assertion2 = "doc2 should return False"
+    assert doc2._.contains_aspect == False, assertion2
 
 def test_aspects_contained():
     doc1 = make_doc(TEST_TEXT_1)
