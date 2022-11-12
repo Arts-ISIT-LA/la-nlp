@@ -59,6 +59,16 @@ def test_keywords(doc1, doc2):
     doc2_targets = None
     assert doc2._.keywords == doc2_targets, assertion2
 
+def test_parent_span(doc1, doc2):
+    assertion1 = "Span should read 'professor was mean'"
+    doc1_target = 'professor was mean'
+    token1 = doc1._.keywords[2]
+    assert token1._.parent_span.text == doc1_target, assertion1
+
+    assertion2 = "Span should read 'that does not contain any target aspects'"
+    doc2_target = 'that does not contain any target aspects'
+    token2 = doc2[-2]
+    assert token2._.parent_span.text == doc2_target, assertion2
 
 def test_aspect_spans(doc1, doc2):
     assert True
