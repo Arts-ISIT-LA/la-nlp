@@ -66,3 +66,21 @@ def parent_span(doc):
         token._.parent_span = span          
 
     return doc
+
+def parent_span_sentiment(doc, include_non_keywords=False):
+    set_extension('sentiment', target_obj=Span)
+
+    if include_non_keywords == True:
+        tokens = doc
+    else:
+        tokens = doc._.keywords
+    
+    if tokens == None:
+        return doc
+    
+    for token in tokens:
+        scores = ANALYZER.polarity_scores(token._.parent_span.text)
+        sentiment = scores['compound']
+        token._.parent_span._.sentiment = sentiment
+    
+    return doc
