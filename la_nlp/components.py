@@ -1,6 +1,8 @@
 from la_nlp import config
 from spacy.tokens import Doc, Span, Token
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
+ANALYZER = SentimentIntensityAnalyzer()
 ASPECTS = config.get_aspects()
 KEYWORDS = []
 for KEYWORDS_LIST in ASPECTS.values():
