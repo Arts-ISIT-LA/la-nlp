@@ -6,9 +6,12 @@ KEYWORDS = []
 for KEYWORDS_LIST in ASPECTS.values():
     KEYWORDS.extend(KEYWORDS_LIST)
 
+def set_extension(extension_name, default=None):
+    if not Doc.has_extension(extension_name):
+        Doc.set_extension(extension_name, default=default)
+
 def contains_aspect(doc):
-    if not Doc.has_extension('contains_aspect'):
-        Doc.set_extension('contains_aspect', default=False)
+    set_extension('contains_aspect', default=False)
     
     for token in doc:
         if token.lemma_.lower() in KEYWORDS:
@@ -18,8 +21,7 @@ def contains_aspect(doc):
     return doc
 
 def aspects_contained(doc):
-    if not Doc.has_extension('aspects_contained'):
-        Doc.set_extension('aspects_contained', default=None)
+    set_extension('aspects_contained')
     
     if doc._.contains_aspect == True:
         aspects_contained = []
@@ -34,8 +36,7 @@ def aspects_contained(doc):
     return doc
 
 def keywords(doc):
-    if not Doc.has_extension('keywords'):
-        Doc.set_extension('keywords', default=None)
+    set_extension('keywords')
 
     if doc._.contains_aspect == True:
         keywords = []
