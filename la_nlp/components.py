@@ -48,6 +48,25 @@ def keywords(doc):
         doc._.keywords = keywords
     return doc
 
+def keyword_aspects(doc):
+    set_extension('aspect', target_obj=Token)
+
+    if doc._.keywords == None:
+        return doc
+
+    for doc_keyword in doc._.keywords:
+        for aspect in ASPECTS:
+            for keyword in ASPECTS[aspect]:
+                if doc_keyword.lemma_.lower() == keyword:
+                    doc_keyword._.aspect = aspect
+                continue
+            if doc_keyword._.aspect != None:
+                continue
+        if doc_keyword._.aspect != None:
+            continue
+
+    return doc
+
 def parent_span(doc):
     set_extension('parent_span', target_obj=Token)
 

@@ -12,6 +12,7 @@ def aspect_sentiment_pipe(doc):
     doc = contains_aspect(doc)
     doc = aspects_contained(doc)
     doc = keywords(doc)
+    doc = keyword_aspects(doc)
     doc = parent_span(doc)
     doc = parent_span_sentiment(doc)
     doc = aspect_sentiments(doc)
