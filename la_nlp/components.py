@@ -3,8 +3,8 @@ from spacy.tokens import Doc, Span, Token
 
 ASPECTS = config.get_aspects()
 KEYWORDS = []
-for keywords in ASPECTS.values():
-    KEYWORDS.extend(keywords)
+for KEYWORDS_LIST in ASPECTS.values():
+    KEYWORDS.extend(KEYWORDS_LIST)
 
 def contains_aspect(doc):
     if not Doc.has_extension('contains_aspect'):
