@@ -6,9 +6,9 @@ KEYWORDS = []
 for KEYWORDS_LIST in ASPECTS.values():
     KEYWORDS.extend(KEYWORDS_LIST)
 
-def set_extension(extension_name, default=None):
-    if not Doc.has_extension(extension_name):
-        Doc.set_extension(extension_name, default=default)
+def set_extension(extension_name, default=None, target_obj=Doc):
+    if not target_obj.has_extension(extension_name):
+        target_obj.set_extension(extension_name, default=default)
 
 def contains_aspect(doc):
     set_extension('contains_aspect', default=False)
