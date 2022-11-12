@@ -1,0 +1,5 @@
+1. Refactor to use a special test_aspects.toml file for tests only.
+    -will involve some pretty big changes to config.py and the aspects data gets
+     fed into the aspect_sentiment_pipe module.
+    -need to be conscious of general modularity and make it easy for future
+     ability to point to any aspects.toml file.
