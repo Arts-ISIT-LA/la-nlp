@@ -3,8 +3,11 @@ from spacy import load as load_model
 from spacy.language import Language
 from spacy.tokens import Doc, Span, Token
 
-ASPECTS = config.get_aspects()
 NLP = load_model('en_core_web_lg')
+ASPECTS = config.get_aspects()
+KEYWORDS = []
+for keywords in ASPECTS.values():
+    KEYWORDS.extend(keywords)
 
 def make_doc(text, nlp=NLP):
     return nlp(text)
@@ -13,13 +16,9 @@ def make_doc(text, nlp=NLP):
 def contains_aspect(doc):
     if not Doc.has_extension('contains_aspect'):
         Doc.set_extension('contains_aspect', default=False)
-
-    aspect_keywords = []
-    for keywords in ASPECTS.values():
-        aspect_keywords.extend(keywords)
     
     for token in doc:
-        if token.lemma_.lower() in aspect_keywords:
+        if token.lemma_.lower() in KEYWORDS:
             doc._.contains_aspect = True
             break
     
