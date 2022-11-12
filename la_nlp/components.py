@@ -44,5 +44,8 @@ def keywords(doc):
             if token.lemma_.lower() in KEYWORDS:
                 keywords.append(token)
         doc._.keywords = keywords
+    return doc
 
+def parent_span(doc):
+    set_extension('parent_span', target_obj=Token)
     return doc
