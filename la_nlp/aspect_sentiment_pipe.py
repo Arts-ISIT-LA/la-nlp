@@ -43,5 +43,5 @@ def aspects_contained(doc):
     return doc
 
 
-NLP.add_pipe('contains_aspect', last=True)
-NLP.add_pipe('aspects_contained', last=True)
+NLP.add_pipe('contains_aspect')
+NLP.add_pipe('aspects_contained')
