@@ -1,4 +1,4 @@
-from la_nlp.components import *
+from la_nlp import components
 from spacy import load as load_model
 from spacy.language import Language
 
@@ -9,13 +9,13 @@ def make_doc(text, nlp=NLP):
 
 @Language.component('aspect_sentiment_pipe')
 def aspect_sentiment_pipe(doc):
-    doc = contains_aspect(doc)
-    doc = aspects(doc)
-    doc = keywords(doc)
-    doc = keyword_aspects(doc)
-    doc = parent_span(doc)
-    doc = parent_span_sentiment(doc)
-    doc = aspect_sentiments(doc)
+    doc = components.aspects(doc)
+    doc = components.contains_aspect(doc)
+    doc = components.keywords(doc)
+    doc = components.keyword_aspects(doc)
+    doc = components.parent_span(doc)
+    doc = components.parent_span_sentiment(doc)
+    doc = components.aspect_sentiments(doc)
     return doc
 
 NLP.add_pipe('aspect_sentiment_pipe')
