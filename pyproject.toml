@@ -21,3 +21,6 @@ classifiers = [
 
 [tool.setuptools.packages]
 find = {}
+
+[tool.setuptools.package-data]
+"la_nlp.data" = ["*.toml"]
