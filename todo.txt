@@ -1,1 +1,9 @@
+--------------------------------------------------------------------------------
+SHORT TERM
+
+1. Get aspects to be loadable when pip installing package
+
+--------------------------------------------------------------------------------
+LONG TERM
+
 1. Write pipeline for feeding pandas dataframe to NLP pipeline
