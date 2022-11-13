@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------------
 SHORT TERM
 
-1. Get aspects to be loadable when pip installing package
+1. Write documentation and README.md file
 
 --------------------------------------------------------------------------------
 LONG TERM
