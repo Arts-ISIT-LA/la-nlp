@@ -1,9 +1,6 @@
 from la_nlp.aspect_sentiment_pipe import *
 import pytest
-
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from spacy.tokens import Doc
+from spacy.tokens import Doc
 
 
 TEST_TEXT_1 = """
