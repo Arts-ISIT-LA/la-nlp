@@ -1,7 +1,15 @@
+import os
 from la_nlp.aspect_sentiment_pipe import *
 import pytest
 from spacy.tokens import Doc
 
+FILE_DIR = os.path.dirname(__file__)
+
+ASPECTS_1_PATH = os.path.join(FILE_DIR, 'test_data', 'test_aspects_1.toml')
+ASPECTS_1 = config.get_aspects(ASPECTS_1_PATH)
+
+ASPECTS_2_PATH = os.path.join(FILE_DIR, 'test_data', 'test_aspects_2.toml')
+ASPECTS_2 = config.get_aspects(ASPECTS_2_PATH)
 
 TEST_TEXT_1 = """
 I enjoyed the course, but the readings were too long and the professor was mean.
@@ -13,12 +21,12 @@ This is a text that does not contain any target aspects.
 
 @pytest.fixture
 def doc1():
-    doc1 = make_doc(TEST_TEXT_1)
+    doc1 = make_doc(TEST_TEXT_1, aspects=ASPECTS_1)
     return doc1
 
 @pytest.fixture
 def doc2():
-    doc2 = make_doc(TEST_TEXT_2)
+    doc2 = make_doc(TEST_TEXT_2, aspects=ASPECTS_1)
     return doc2
 
 def test_make_doc(doc1):
