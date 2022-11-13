@@ -10,7 +10,7 @@ def make_doc(text, nlp=NLP):
 @Language.component('aspect_sentiment_pipe')
 def aspect_sentiment_pipe(doc):
     doc = contains_aspect(doc)
-    doc = aspects_contained(doc)
+    doc = aspects(doc)
     doc = keywords(doc)
     doc = keyword_aspects(doc)
     doc = parent_span(doc)

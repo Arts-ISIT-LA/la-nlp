@@ -22,8 +22,8 @@ def contains_aspect(doc):
     
     return doc
 
-def aspects_contained(doc):
-    set_extension('aspects_contained')
+def aspects(doc):
+    set_extension('aspects')
     
     if doc._.contains_aspect == True:
         aspects_contained = []
@@ -34,7 +34,7 @@ def aspects_contained(doc):
                 keywords = ASPECTS[aspect]
                 if token.lemma_.lower() in keywords:
                     aspects_contained.append(aspect)
-        doc._.aspects_contained = aspects_contained
+        doc._.aspects = aspects_contained
     return doc
 
 def keywords(doc):

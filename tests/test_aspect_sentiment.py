@@ -39,14 +39,14 @@ def test_contains_aspect(doc1, doc2):
     assertion2 = "doc2 should return False"
     assert doc2._.contains_aspect == False, assertion2
 
-def test_aspects_contained(doc1, doc2):
+def test_aspects(doc1, doc2):
     assertion1 = "doc1 should contain 'course', 'content', and 'instructor'"
     doc1_aspects = ['course', 'content', 'instructor']
-    assert doc1._.aspects_contained == doc1_aspects, assertion1
+    assert doc1._.aspects == doc1_aspects, assertion1
 
     assertion2 = "doc2 should contain None"
     doc2_aspects = None
-    assert doc2._.aspects_contained == doc2_aspects, assertion2
+    assert doc2._.aspects == doc2_aspects, assertion2
 
 def test_keywords(doc1, doc2):
     assertion1 = "doc1 should contain keyword %s"
