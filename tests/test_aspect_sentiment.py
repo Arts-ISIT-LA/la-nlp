@@ -1,5 +1,6 @@
 import os
-from la_nlp.aspect_sentiment_pipe import *
+from la_nlp.pipes import aspect_sentiment as asp
+from la_nlp import config
 import pytest
 from spacy.tokens import Doc
 
@@ -21,12 +22,12 @@ This is a text that does not contain any target aspects.
 
 @pytest.fixture
 def doc1():
-    doc1 = make_doc(TEST_TEXT_1, aspects=ASPECTS_1)
+    doc1 = asp.make_doc(TEST_TEXT_1, aspects=ASPECTS_1)
     return doc1
 
 @pytest.fixture
 def doc2():
-    doc2 = make_doc(TEST_TEXT_2, aspects=ASPECTS_1)
+    doc2 = asp.make_doc(TEST_TEXT_2, aspects=ASPECTS_1)
     return doc2
 
 def test_make_doc(doc1):
