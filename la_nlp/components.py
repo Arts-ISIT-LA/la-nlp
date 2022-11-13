@@ -22,41 +22,41 @@ def contains_aspect(doc):
     
     return doc
 
-def aspects(doc):
+def aspects(doc, base_aspects=ASPECTS):
     set_extension('aspects')
     
     if doc._.contains_aspect == True:
         aspects_contained = []
         for token in doc:
-            for aspect in ASPECTS:
+            for aspect in base_aspects:
                 if aspect in aspects_contained:
                     continue
-                keywords = ASPECTS[aspect]
+                keywords = base_aspects[aspect]
                 if token.lemma_.lower() in keywords:
                     aspects_contained.append(aspect)
         doc._.aspects = aspects_contained
     return doc
 
-def keywords(doc):
+def keywords(doc, base_keywords=KEYWORDS):
     set_extension('keywords')
 
     if doc._.contains_aspect == True:
         keywords = []
         for token in doc:
-            if token.lemma_.lower() in KEYWORDS:
+            if token.lemma_.lower() in base_keywords:
                 keywords.append(token)
         doc._.keywords = keywords
     return doc
 
-def keyword_aspects(doc):
+def keyword_aspects(doc, base_aspects=ASPECTS):
     set_extension('aspect', target_obj=Token)
 
     if doc._.keywords == None:
         return doc
 
     for doc_keyword in doc._.keywords:
-        for aspect in ASPECTS:
-            for keyword in ASPECTS[aspect]:
+        for aspect in base_aspects:
+            for keyword in base_aspects[aspect]:
                 if doc_keyword.lemma_.lower() == keyword:
                     doc_keyword._.aspect = aspect
                 continue
