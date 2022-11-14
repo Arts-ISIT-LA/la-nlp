@@ -1,10 +1,11 @@
 --------------------------------------------------------------------------------
 SHORT TERM
 
-1. Write documentation and README.md file
+1. Write test function for aspect_sentiments() function where doc has multiple
+   keywords for at least one aspect.
 
 --------------------------------------------------------------------------------
 LONG TERM
 
-1. Write pipeline for feeding pandas dataframe to NLP pipeline
-2. Re-write tests to test each component individually
+1. Write pandas pipeline for feeding dataframes to NLP pipeline.
+2. Write tests to test each component individually.
