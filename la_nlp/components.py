@@ -30,11 +30,11 @@ def get_token_parent_span(token):
     indices.append(head.i)
     indices.sort()
     first = indices[0]
-    last = indices[-1] + 1
+    last = indices[-1]
     if last >= len(doc):
         span = doc[first:]
     else:
-        span = doc[first:last]
+        span = doc[first:last+1]
     return span
 
 def contains_aspect(
