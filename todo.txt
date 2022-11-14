@@ -7,3 +7,4 @@ SHORT TERM
 LONG TERM
 
 1. Write pipeline for feeding pandas dataframe to NLP pipeline
+2. Re-write tests to test each component individually
