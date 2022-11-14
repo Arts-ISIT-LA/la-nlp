@@ -44,7 +44,7 @@ def contains_aspect(
     Returns:
         Doc: Processed Doc object with the 'contains_aspect' attribute.
     """
-    set_extension('contains_aspect', default=False)
+    set_extension('contains_aspect', default_val=False)
     
     for token in doc:
         if token.lemma_.lower() in base_keywords:
@@ -168,14 +168,16 @@ def keyword_aspects(
 
 def parent_span(
     doc: Doc,
-    include_non_keywords: bool = False
+    include_non_keywords: bool = False,
 ) -> Doc:
     set_extension('parent_span', target_obj=Token)
 
     if include_non_keywords == True:
         tokens = doc
-    elif include_non_keywords == False:
+    elif include_non_keywords == False and doc._.keywords is not None:
         tokens = doc._.keywords
+    elif include_non_keywords == False and doc._.keywords is None:
+        return doc
     else:
         raise ValueError('include_non_keywords takes only True or False')
 
