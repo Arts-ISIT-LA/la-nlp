@@ -7,7 +7,7 @@ This package contains code for various natural language processing (NLP) tasks f
 Run the following command to install the package:
 
 ```
-pip install la_pytools==0.1.0 --index-url \
+pip install la_nlp --index-url \
 https://<token_name>:<token>@repo.code.ubc.ca/api/v4/projects/879/packages/pypi/simple
 ```
 
