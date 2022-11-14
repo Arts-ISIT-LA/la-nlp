@@ -21,7 +21,17 @@ def set_extension(
     if not target_obj.has_extension(extension_name):
         target_obj.set_extension(extension_name, default=default_val)
 
-def get_token_parent_span(token):
+def get_token_parent_span(
+    token: Token,
+) -> Span:
+    """Takes a Token object and returns its Span from the parent Doc.
+
+    Args:
+        token (Token): spacy Token object to get the parent span of.
+
+    Returns:
+        Span: spacy Span object containing the Token passed into the function.
+    """
     doc = token.doc
     head = token.head
     siblings = head.children
