@@ -3,6 +3,9 @@ SHORT TERM
 
 1. Write test function for aspect_sentiments() function where doc has multiple
    keywords for at least one aspect.
+2. Write test to double check that aspect_sentiments function is correctly
+   computing the means of sentiments (was previously returning only the least
+   sentiment in the sequence).
 
 --------------------------------------------------------------------------------
 LONG TERM
