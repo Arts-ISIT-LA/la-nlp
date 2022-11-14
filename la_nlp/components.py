@@ -166,10 +166,20 @@ def keyword_aspects(
 
     return doc
 
-def parent_span(doc):
+def parent_span(
+    doc: Doc,
+    include_non_keywords: bool = False
+) -> Doc:
     set_extension('parent_span', target_obj=Token)
 
-    for token in doc:
+    if include_non_keywords == True:
+        tokens = doc
+    elif include_non_keywords == False:
+        tokens = doc._.keywords
+    else:
+        raise ValueError('include_non_keywords takes only True or False')
+
+    for token in tokens:
         head = token.head
         siblings = head.children
         indices = [token.i for token in siblings]
