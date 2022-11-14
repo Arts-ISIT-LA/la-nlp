@@ -68,6 +68,12 @@ def test_function_parent_span_sentiment(nlp):
     token = doc._.keywords[0]
     assert token._.parent_span._.sentiment is not None
 
+def test_function_parent_span_sentiment_non_keywords(nlp):
+    doc = nlp(TEST_TEXT_1)
+    doc = comp.parent_span(doc, include_non_keywords=True)
+    doc = comp.parent_span_sentiment(doc, include_non_keywords=True)
+    assert doc[0]._.parent_span._.sentiment is not None
+
 def test_function_aspect_sentiments(nlp):
     doc = nlp(TEST_TEXT_1)
     doc = comp.contains_aspect(doc, base_keywords=KEYWORDS)
