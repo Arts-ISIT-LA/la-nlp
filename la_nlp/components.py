@@ -59,7 +59,7 @@ def contains_aspect(
     Target object: spacy Doc
     Attribute type: bool
     Default value: False
-    Dependent on: N/A
+    Dependency path: N/A
 
     Args:
         doc (Doc): The Doc object to set the attribute on.
@@ -89,7 +89,7 @@ def aspects(
     Target object: spacy Doc
     Attribute type: list
     Default value: None
-    Dependent on: Doc._.contains_aspect
+    Dependency path: contains_aspect() ->
 
     Args:
         doc (Doc): The Doc object to set the attribute on.
@@ -126,7 +126,7 @@ def keywords(
     Target object: spacy Doc
     Attribute type: list
     Default value: None
-    Dependent on: Doc._.contains_aspect
+    Dependency path: contains_aspect() ->
 
     Args:
         doc (Doc): The Doc object to set the attribute on.
@@ -159,7 +159,7 @@ def keyword_aspects(
     Target object: spacy Token
     Attribute type: string
     Default value: None
-    Dependent on: Doc._.keywords
+    Dependency path: contains_aspect() -> keywords() ->
 
     Args:
         doc (Doc): The Doc object for whose Token objects to set the attribute
@@ -204,7 +204,8 @@ def parent_span(
     Target object: spacy Token
     Attribute type: Span
     Default value: None
-    Dependent on: Doc._.keywords (unless include_non_keywords set to False)
+    Dependent on: (if include_non_keywords == True) N/A
+        (if include_non_keywords == False) contains_aspect() -> keywords() ->
 
     Args:
         doc (Doc): The Doc object for whose Token objects to set the attribute
@@ -252,8 +253,9 @@ def parent_span_sentiment(
     Target object: spacy Span
     Attribute type: float
     Default value: None
-    Dependent on: Token._.parent_span, Doc._.keywords (unless include_non_
-        keywords set to False)
+    Dependency path: (if include_non_keywords == True) parent_span() ->
+        (if include_non_keywords == False) contains_aspect() -> keywords() ->
+        parent_span() ->
 
     Args:
         doc (Doc): The Doc object for whose Token objects to set the attribute
@@ -306,7 +308,8 @@ def aspect_sentiments(
     Attribute type: dict
     Default value: dict (should be a dict of strings (aspects) each mapped to
         None)
-    Dependent on: Doc._.keywords, Token._.parent_span, Span._.sentiment
+    Dependency path: contains_aspect() -> keywords() -> keyword_aspects() ->
+        parent_span() -> parent_span_sentiment() ->
 
     Args:
         doc (Doc): The Doc object to set the attribute on.
