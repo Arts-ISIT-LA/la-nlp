@@ -108,7 +108,7 @@ def keywords(
     doc: Doc,
     base_keywords: list,
 ) -> Doc:
-    """Takes a Doc and returns a new Doc with the 'keywords' aspect.
+    """Takes a Doc and returns a new Doc with the 'keywords' attribute.
 
     Accessed via 'Doc._.keywords', the 'keywords' attribute contains a list of
     the keywords contained within the Doc.
@@ -198,9 +198,9 @@ def parent_span(
 
     Args:
         doc (Doc): The Doc object for whose Token objects to set the attribute
-        on.
+            on.
         include_non_keywords (bool, optional): Whether or not to assign spans to
-        non-keyword Token objects. Defaults to False.
+            non-keyword Token objects. Defaults to False.
 
     Raises:
         ValueError: Raised if passing a non-bool object to include_non_keywords.
@@ -226,13 +226,47 @@ def parent_span(
 
     return doc
 
-def parent_span_sentiment(doc, include_non_keywords=False):
+def parent_span_sentiment(
+    doc: Doc,
+    include_non_keywords: bool = False, # Can only be True if parent_span True
+) -> Doc:
+    """Takes a Doc and adds the 'sentiment' attribute to its Span objects.
+
+    Accessed via 'Span._.sentiment', the 'sentiment' attribute is a measure of
+    the compound polarity of a span of text, as calculated by VADER (via the
+    vaderSentiment package). This function calculates this sentiment for the
+    parent Span objects of the Token objects in a Doc. If include_non_keywords
+    is set to False, sentiment will only be calculated for the parents of
+    the Doc's keywords
+
+    Target object: spacy Span
+    Attribute type: float
+    Default value: None
+    Dependent on: Token._.parent_span, Doc._.keywords (unless include_non_
+        keywords set to False)
+
+    Args:
+        doc (Doc): The Doc object for whose Token objects to set the attribute
+            on.
+        include_non_keywords (bool, optional): Whether or not to assign 
+            sentiments to parent spans of non-keyword Token objects. Defaults to
+            False.
+
+    Raises:
+        ValueError: Raised if passing a non-bool object to include_non_keywords.
+
+    Returns:
+        Doc: Processed Doc object with Span objects containing the
+            'sentiment' attribute.
+    """
     set_extension('sentiment', target_obj=Span)
 
     if include_non_keywords == True:
         tokens = doc
-    else:
+    elif include_non_keywords == False:
         tokens = doc._.keywords
+    else:
+        raise ValueError('include_non_keywords takes only True or False')
     
     if tokens == None:
         return doc
