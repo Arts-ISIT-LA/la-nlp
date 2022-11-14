@@ -39,7 +39,7 @@ def doc3():
     doc3 = asp.make_doc(TEST_TEXT_3, aspects=ASPECTS_1)
     return doc3
 
-def test_make_doc(doc1, doc3):
+def test_function_make_doc(doc1, doc3):
     assertion1 = "Should be a spacy Doc object"
     assert isinstance(doc1, Doc), assertion1
 
@@ -48,15 +48,15 @@ def test_make_doc(doc1, doc3):
 
     assert isinstance(doc3, Doc)
 
-
-def test_contains_aspect(doc1, doc2):
+def test_attribute_contains_aspect(doc1, doc2):
     assertion1 = "doc1 should return True"
     assert doc1._.contains_aspect == True, assertion1
 
     assertion2 = "doc2 should return False"
     assert doc2._.contains_aspect == False, assertion2
 
-def test_aspects(doc1, doc2):
+
+def test_attribute_aspects(doc1, doc2):
     assertion1 = "doc1 should contain 'course', 'content', and 'instructor'"
     doc1_aspects = ['course', 'content', 'instructor']
     assert doc1._.aspects == doc1_aspects, assertion1
@@ -65,7 +65,7 @@ def test_aspects(doc1, doc2):
     doc2_aspects = None
     assert doc2._.aspects == doc2_aspects, assertion2
 
-def test_keywords(doc1, doc2):
+def test_attribute_keywords(doc1, doc2):
     assertion1 = "doc1 should contain keyword %s"
     doc1_targets = ['course', 'reading', 'professor']
     doc1_keywords = [kw.lemma_.lower() for kw in doc1._.keywords]
@@ -76,14 +76,14 @@ def test_keywords(doc1, doc2):
     doc2_targets = None
     assert doc2._.keywords == doc2_targets, assertion2
 
-def test_keyword_aspects(doc1):
+def test_attribute_keyword_aspects(doc1):
     assertion = "%s aspect should be %s"
     target_aspects = ['course', 'content', 'instructor']
     for keyword, aspect in zip(doc1._.keywords, target_aspects):
         assert keyword._.aspect == aspect, assertion % (keyword.text, aspect)
 
 
-def test_parent_span(doc1, doc2):
+def test_attribute_parent_span(doc1, doc2):
     assertion1 = "Span should read 'professor was mean'"
     doc1_target = 'professor was mean'
     token1 = doc1._.keywords[2]
@@ -94,14 +94,14 @@ def test_parent_span(doc1, doc2):
     token2 = doc2[-3]
     assert token2._.parent_span == doc2_target, assertion2
 
-def test_parent_span_sentiment(doc1):
+def test_attribute_parent_span_sentiment(doc1):
     assertion = "course parent span sentiment should be 0.2846"
     span = doc1._.keywords[0]._.parent_span
     target_sentiment = 0.2846
 
     assert span._.sentiment == target_sentiment, assertion
 
-def test_aspect_sentiments(doc1, doc3):
+def test_attribute_aspect_sentiments(doc1, doc3):
     target_sentiments1 = {
         'course': 0.2846,
         'content': 0,
