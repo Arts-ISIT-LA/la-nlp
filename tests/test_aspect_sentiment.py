@@ -20,6 +20,10 @@ TEST_TEXT_2 = """
 This is a text that does not contain any target aspects.
 """
 
+TEST_TEXT_3 = """
+The class was good. I liked the course.
+"""
+
 @pytest.fixture
 def doc1():
     doc1 = asp.make_doc(TEST_TEXT_1, aspects=ASPECTS_1)
@@ -30,12 +34,19 @@ def doc2():
     doc2 = asp.make_doc(TEST_TEXT_2, aspects=ASPECTS_1)
     return doc2
 
-def test_make_doc(doc1):
+@pytest.fixture
+def doc3():
+    doc3 = asp.make_doc(TEST_TEXT_3, aspects=ASPECTS_1)
+    return doc3
+
+def test_make_doc(doc1, doc3):
     assertion1 = "Should be a spacy Doc object"
     assert isinstance(doc1, Doc), assertion1
 
     assertion2 = "Should have a length of 19"
     assert len(doc1) == 19, assertion2
+
+    assert isinstance(doc3, Doc)
 
 
 def test_contains_aspect(doc1, doc2):
@@ -90,14 +101,21 @@ def test_parent_span_sentiment(doc1):
 
     assert span._.sentiment == target_sentiment, assertion
 
-def test_aspect_sentiments(doc1):
-    target_sentiments = {
+def test_aspect_sentiments(doc1, doc3):
+    target_sentiments1 = {
         'course': 0.2846,
         'content': 0,
-        'assignments':None,
-        'tests':None,
+        'assignments': None,
+        'tests': None,
         'instructor': 0,
     }
-    assertion = f"Sentiment dict should look like: {target_sentiments}"
+    assertion1 = f"Sentiment dict should look like: {target_sentiments1}"
 
-    assert doc1._.aspect_sentiments == target_sentiments, assertion
+    assert doc1._.aspect_sentiments == target_sentiments1, assertion1
+
+    target_course_sentiment = 0.43095
+    course_sentiment = doc3._.aspect_sentiments['course']
+
+    assertion2 = 'doc3 course sentiment value should within 0.00001 of 0.43095'
+
+    assert abs(target_course_sentiment-course_sentiment) <= 0.00001, assertion2
