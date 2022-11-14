@@ -10,7 +10,14 @@ def make_doc(text, nlp=NLP, aspects=ASPECTS):
     keywords = []
     for keywords_list in aspects.values():
         keywords.extend(keywords_list)
-    return nlp(text, component_cfg={'aspect_sentiment_pipe':{'base_aspects':aspects, 'base_keywords':keywords}})
+    
+    cfg = {
+        'aspect_sentiment_pipe': {
+            'base_aspects': aspects,
+            'base_keywords': keywords,
+        }
+    }
+    return nlp(text, component_cfg=cfg)
 
 @Language.component('aspect_sentiment_pipe')
 def aspect_sentiment_pipe(doc, base_aspects, base_keywords):
