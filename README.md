@@ -15,7 +15,7 @@ Where `<token_name>` can be substituted with your personal access token from Git
 
 ### Language model
 
-You will also need to install the `spacy` language model used in the package. To do, run the following command:
+You will also need to install the `spacy` language model used in the package. To do so, run the following command:
 
 ```
 python -m spacy download en_core_web_lg
