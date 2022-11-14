@@ -1,4 +1,3 @@
-from la_nlp import config
 from spacy.tokens import Doc, Span, Token
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
@@ -185,6 +184,31 @@ def parent_span(
     doc: Doc,
     include_non_keywords: bool = False,
 ) -> Doc:
+    """Takes a Doc and adds the 'parent_span' attribute to its Token objects.
+
+    Accessed via 'Token._.parent_span', the 'parent_span' attribute contains,
+    roughly, the section of the parent Doc which pertains to a given Token. For
+    a full explanation of how this is computed, see the get_parent_span()
+    function.
+
+    Target object: spacy Token
+    Attribute type: Span
+    Default value: None
+    Dependent on: Doc._.keywords (unless include_non_keywords set to False)
+
+    Args:
+        doc (Doc): The Doc object for whose Token objects to set the attribute
+        on.
+        include_non_keywords (bool, optional): Whether or not to assign spans to
+        non-keyword Token objects. Defaults to False.
+
+    Raises:
+        ValueError: Raised if passing a non-bool object to include_non_keywords.
+
+    Returns:
+        Doc: Processed Doc object with Token objects containing the
+            'parent_span' attribute.
+    """
     set_extension('parent_span', target_obj=Token)
 
     if include_non_keywords == True:
