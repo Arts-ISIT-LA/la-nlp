@@ -24,6 +24,15 @@ TEST_TEXT_3 = """
 The class was good. I liked the course.
 """
 
+TEST_TEXT_4 = "Professor Doe was a very passionate lecturer who presented " \
+    "the material quite differently from other political science courses I " \
+    "have taken. The only 'problem' I had with his course was how much bias " \
+    "and personal opinion he interjected in his lectures. A lot of the " \
+    "material presented was really just opinion and we spent too much time " \
+    "on that, which did not effectively facilitate learning of the subject " \
+    "matter. The extra material he brought in, however, was quite " \
+    "interesting and helped provide deeper understanding of certain subjects."
+
 @pytest.fixture
 def doc1():
     doc1 = asp.make_doc(TEST_TEXT_1, aspects=ASPECTS_1)
@@ -38,6 +47,17 @@ def doc2():
 def doc3():
     doc3 = asp.make_doc(TEST_TEXT_3, aspects=ASPECTS_1)
     return doc3
+
+@pytest.fixture
+def doc4():
+    aspects = {
+        'course':['course'],
+        'format':['format'],
+        'content':['content'],
+        'professor':['professor'],
+    }
+    doc4 = asp.make_doc(TEST_TEXT_4, aspects=aspects)
+    return doc4
 
 def test_function_make_doc(doc1, doc3):
     assertion1 = "Should be a spacy Doc object"
@@ -93,6 +113,16 @@ def test_attribute_parent_span(doc1, doc2):
     doc2_target = None
     token2 = doc2[-3]
     assert token2._.parent_span == doc2_target, assertion2
+
+def test_attribute_parent_span_length(doc4):
+    kw = doc4._.keywords[0]
+    span = kw._.parent_span
+    target = "Professor Doe was a very passionate lecturer"
+    assertion = "Span should read 'Professor Doe was a very passionate " \
+        "lecturer'. If not being computed correctly, span will likely read " \
+        "only 'Professor Doe'."
+
+    assert span.text == target, assertion
 
 def test_attribute_parent_span_sentiment(doc1):
     assertion = "course parent span sentiment should be 0.2846"
