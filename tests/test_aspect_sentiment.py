@@ -79,9 +79,9 @@ def test_parent_span(doc1, doc2):
     assert token1._.parent_span.text == doc1_target, assertion1
 
     assertion2 = "Span should read 'that does not contain any target aspects'"
-    doc2_target = 'that does not contain any target aspects'
+    doc2_target = None
     token2 = doc2[-3]
-    assert token2._.parent_span.text == doc2_target, assertion2
+    assert token2._.parent_span == doc2_target, assertion2
 
 def test_parent_span_sentiment(doc1):
     assertion = "course parent span sentiment should be 0.2846"
