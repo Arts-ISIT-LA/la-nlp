@@ -2,13 +2,48 @@ from la_nlp import config
 from spacy.tokens import Doc, Span, Token
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
+# Initializing the VADER sentiment analyzer for use within sentiment components
 ANALYZER = SentimentIntensityAnalyzer()
 
-def set_extension(extension_name, default=None, target_obj=Doc):
-    if not target_obj.has_extension(extension_name):
-        target_obj.set_extension(extension_name, default=default)
+def set_extension(
+    extension_name: str,
+    default_val: any = None,
+    target_obj: Doc | Span | Token = Doc,
+) -> None:
+    """Sets an extension on a designated spacy object if doesn't already exist.
 
-def contains_aspect(doc, base_keywords):
+    Args:
+        extension_name (str): Name of the extension/attribute to be set.
+        default_val (any, optional): Default value for all objects with
+            the extension to be initialized to. Defaults to None.
+        target_obj (Doc | Span | Token, optional): The spacy object onto which
+            the extension should be set. Defaults to Doc.
+    """
+    if not target_obj.has_extension(extension_name):
+        target_obj.set_extension(extension_name, default=default_val)
+
+def contains_aspect(
+    doc: Doc,
+    base_keywords: list,
+) -> Doc:
+    """Takes a Doc and returns a new Doc with the 'contains_aspect' attribute.
+
+    Accessed via 'Doc._.contains_aspect', the 'contains_aspect' attribute is a
+    boolean which indicates whether or not doc contains any of the keywords
+    passed to function.
+
+    Target object: spacy Doc
+    Attribute type: bool
+    Default value: False
+    Dependent on: N/A
+
+    Args:
+        doc (Doc): The Doc object to set the attribute on.
+        base_keywords (list): List of keywords to search for within the Doc.
+
+    Returns:
+        Doc: Processed Doc object with the 'contains_aspect' attribute.
+    """
     set_extension('contains_aspect', default=False)
     
     for token in doc:
@@ -18,7 +53,29 @@ def contains_aspect(doc, base_keywords):
     
     return doc
 
-def aspects(doc, base_aspects):
+def aspects(
+    doc: Doc,
+    base_aspects: dict,
+) -> Doc:
+    """Takes a Doc and returns a new Doc with the 'aspects' attribute.
+
+    Accessed via 'Doc._.aspects', the 'aspects' attribute contains a list of the
+    aspects discussed by the Doc.
+
+    Target object: spacy Doc
+    Attribute type: list
+    Default value: None
+    Dependent on: Doc._.contains_aspect
+
+    Args:
+        doc (Doc): The Doc object to set the attribute on.
+        base_aspects (dict): Dictionary of keywords mapped to aspects. Should
+            take the form of: {'aspect1': ['keyword1', 'keyword2'], 'aspect2':
+            ['keyword3', 'keyword4']}.
+
+    Returns:
+        Doc: Processed Doc object with the 'aspects' attribute.
+    """
     set_extension('aspects')
     
     if doc._.contains_aspect == True:
@@ -33,7 +90,27 @@ def aspects(doc, base_aspects):
         doc._.aspects = aspects_contained
     return doc
 
-def keywords(doc, base_keywords):
+def keywords(
+    doc: Doc,
+    base_keywords: list,
+) -> Doc:
+    """Takes a Doc and returns a new Doc with the 'keywords' aspect.
+
+    Accessed via 'Doc._.keywords', the 'keywords' attribute contains a list of
+    the keywords contained within the Doc.
+
+    Target object: spacy Doc
+    Attribute type: list
+    Default value: None
+    Dependent on: Doc._.contains_aspect
+
+    Args:
+        doc (Doc): The Doc object to set the attribute on.
+        base_keywords (list): List of keywords to search for within the Doc.
+
+    Returns:
+        Doc: Processed Doc object with the 'keywords' attribute.
+    """
     set_extension('keywords')
 
     if doc._.contains_aspect == True:
@@ -44,7 +121,33 @@ def keywords(doc, base_keywords):
         doc._.keywords = keywords
     return doc
 
-def keyword_aspects(doc, base_aspects):
+def keyword_aspects(
+    doc: Doc,
+    base_aspects: dict,
+) -> Doc:
+    """Takes a Doc and adds the 'aspect' attribute to its Token objects.
+
+    Accessed via 'Token._.aspect', the 'aspect' attribute is applied only to the
+    Token objects contained within the 'keywords' attribute of the Doc. The
+    attribute itself reflects the corresponding aspect of the keyword. Non-
+    keyword Token objects receive a None value.
+
+    Target object: spacy Token
+    Attribute type: string
+    Default value: None
+    Dependent on: Doc._.keywords
+
+    Args:
+        doc (Doc): The Doc object for whose Token objects to set the attribute
+            on.
+        base_aspects (dict): Dictionary of keywords mapped to aspects. Should
+            take the form of: {'aspect1': ['keyword1', 'keyword2'], 'aspect2':
+            ['keyword3', 'keyword4']}.
+
+    Returns:
+        Doc: Processed Doc object with Token objects containing the 'aspect'
+            attribute.
+    """
     set_extension('aspect', target_obj=Token)
 
     if doc._.keywords == None:
