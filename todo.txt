@@ -1,7 +1,12 @@
 --------------------------------------------------------------------------------
 SHORT TERM
 
-
+1. Add support for minimum length of parent_spans.
+     -currently, parent_span is only using the built in children of a token's
+      head. However, this sometimes results in very short spans with little to
+      no useful information in the span. This can be fixed by instituting a
+      minimum length for parent spans and widening the parent span search based
+      on that minimum length.
 
 --------------------------------------------------------------------------------
 LONG TERM
