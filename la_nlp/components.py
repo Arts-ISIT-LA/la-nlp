@@ -278,15 +278,52 @@ def parent_span_sentiment(
     
     return doc
 
-def aspect_sentiments(doc, base_aspects):
-    set_extension('aspect_sentiments')
+def aspect_sentiments(
+    doc: Doc,
+    base_aspects: dict,
+) -> Doc:
+    """Takes a Doc and returns a new Doc with the aspect_sentiments attribute.
 
+    Accessed via 'Doc._.aspect_sentiments', the 'aspect_sentiments' attribute
+    represents the sentiment scores for all of the aspects discussed in the Doc.
+    The resulting dict contains floats for all aspects that were mentioned in
+    the Doc and None values for all that aren't mentioned.
+
+    Sentiments are calculated by taking the mean of the parent span sentiments
+    for all keywords mapped to each sentiment.
+
+    Target object: spacy Doc
+    Attribute type: dict
+    Default value: dict (should be a dict of strings (aspects) each mapped to
+        None)
+    Dependent on: Doc._.keywords, Token._.parent_span, Span._.sentiment
+
+    Args:
+        doc (Doc): The Doc object to set the attribute on.
+        base_aspects (dict): Dictionary of keywords mapped to aspects. Should
+            take the form of: {'aspect1': ['keyword1', 'keyword2'], 'aspect2':
+            ['keyword3', 'keyword4']}.
+
+    Returns:
+        Doc: Processed Doc object with 'aspect_sentiments' attribute.
+    """
     aspect_sentiments = {aspect:None for aspect in base_aspects}
-
-    if doc._.keywords != None:
+    set_extension('aspect_sentiments', default_val = aspect_sentiments)
+  
+    if doc._.keywords is not None:
         for keyword in doc._.keywords:
             aspect = keyword._.aspect
             sentiment = keyword._.parent_span._.sentiment
+
+            if aspect_sentiments[aspect] is None:
+                aspect_sentiments[aspect] = []
+            aspect_sentiments[aspect].append(sentiment)
+    
+        for aspect in aspect_sentiments:
+            sentiments = aspect_sentiments[aspect]
+            if sentiments == None:
+                continue
+            sentiment = sum(sentiments) / len(sentiments)
             aspect_sentiments[aspect] = sentiment
     
     doc._.aspect_sentiments = aspect_sentiments
