@@ -1,14 +1,9 @@
 --------------------------------------------------------------------------------
 SHORT TERM
 
-1. Write test function for aspect_sentiments() function where doc has multiple
-   keywords for at least one aspect.
-2. Write test to double check that aspect_sentiments function is correctly
-   computing the means of sentiments (was previously returning only the least
-   sentiment in the sequence).
+1. Write tests to test each component individually.
 
 --------------------------------------------------------------------------------
 LONG TERM
 
 1. Write pandas pipeline for feeding dataframes to NLP pipeline.
-2. Write tests to test each component individually.
