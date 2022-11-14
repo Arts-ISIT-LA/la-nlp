@@ -22,6 +22,21 @@ def set_extension(
     if not target_obj.has_extension(extension_name):
         target_obj.set_extension(extension_name, default=default_val)
 
+def get_token_parent_span(token):
+    doc = token.doc
+    head = token.head
+    siblings = head.children
+    indices = [token.i for token in siblings]
+    indices.append(head.i)
+    indices.sort()
+    first = indices[0]
+    last = indices[-1] + 1
+    if last >= len(doc):
+        span = doc[first:]
+    else:
+        span = doc[first:last]
+    return span
+
 def contains_aspect(
     doc: Doc,
     base_keywords: list,
@@ -182,17 +197,7 @@ def parent_span(
         raise ValueError('include_non_keywords takes only True or False')
 
     for token in tokens:
-        head = token.head
-        siblings = head.children
-        indices = [token.i for token in siblings]
-        indices.append(head.i)
-        indices.sort()
-        first = indices[0]
-        last = indices[-1] + 1
-        if last >= len(doc):
-            span = doc[first:]
-        else:
-            span = doc[first:last]
+        span = get_token_parent_span(token)
         token._.parent_span = span          
 
     return doc
