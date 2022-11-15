@@ -214,7 +214,8 @@ def parent_span(
         include_non_keywords (bool, optional): Whether or not to assign spans to
             non-keyword Token objects. Defaults to False.
         min_length (int, optional): Minimum span length to enforce. Spans
-            shorter than the minimum length will be expanded.
+            shorter than the minimum length will be expanded. Set to 0 to
+            disable expansion.
 
     Raises:
         ValueError: Raised if passing a non-bool object to include_non_keywords.
