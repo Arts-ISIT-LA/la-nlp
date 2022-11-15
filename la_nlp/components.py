@@ -223,7 +223,20 @@ def parent_span(
         Doc: Processed Doc object with Token objects containing the
             'parent_span' attribute.
     """
-    def get_expansion_params(span, target_length):
+    def get_expansion_params(
+        span: Span,
+        target_length: int,
+    ) -> tuple[int, int]:
+        """Fetches parameters for the expand_span() function.
+
+        Args:
+            span (Span): The Span object for which to return expansion
+                parameters for.
+            target_length (int): Target length of the span.
+
+        Returns:
+            tuple[int, int]: The left and right expansion distance for the Span.
+        """
         doc = span.doc
         target_expansion = target_length - len(span)
         start = span.start
@@ -241,7 +254,21 @@ def parent_span(
 
         return left, right
 
-    def expand_span(span, left, right):
+    def expand_span(
+        span: Span,
+        left: int,
+        right: int,
+    ) -> Span:
+        """Expands the span by left+right tokens.
+
+        Args:
+            span (Span): The span to be expanded
+            left (int): Number of tokens to add to the left.
+            right (int): Number of tokens to add to the right.
+
+        Returns:
+            Span: Expanded Span object.
+        """
         if len(span.doc) < (left + right):
             return span.doc[0:]
         start = span.start - left
