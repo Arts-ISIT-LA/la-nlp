@@ -193,6 +193,7 @@ def keyword_aspects(
 def parent_span(
     doc: Doc,
     include_non_keywords: bool = False,
+    min_length: int = 7,
 ) -> Doc:
     """Takes a Doc and adds the 'parent_span' attribute to its Token objects.
 
@@ -212,6 +213,8 @@ def parent_span(
             on.
         include_non_keywords (bool, optional): Whether or not to assign spans to
             non-keyword Token objects. Defaults to False.
+        min_length (int, optional): Minimum span length to enforce. Spans
+            shorter than the minimum length will be expanded.
 
     Raises:
         ValueError: Raised if passing a non-bool object to include_non_keywords.
@@ -220,6 +223,31 @@ def parent_span(
         Doc: Processed Doc object with Token objects containing the
             'parent_span' attribute.
     """
+    def get_expansion_params(span, target_length):
+        doc = span.doc
+        target_expansion = target_length - len(span)
+        start = span.start
+        end = span.end
+        left = int(target_expansion / 2)
+        right = int(target_expansion / 2) + (target_expansion % 2 > 0)
+        doc_remainder = len(doc) - (end + 1)
+
+        if start < left:
+            right = right + left - start
+            left = left - (left - start)
+        elif doc_remainder < right:
+            left = left + right - doc_remainder
+            right = right - (right - doc_remainder)
+
+        return left, right
+
+    def expand_span(span, left, right):
+        if len(span.doc) < (left + right):
+            return span.doc[0:]
+        start = span.start - left
+        end = span.end + right
+        return span.doc[start:end]
+
     set_extension('parent_span', target_obj=Token)
 
     if include_non_keywords == True:
@@ -233,6 +261,9 @@ def parent_span(
 
     for token in tokens:
         span = get_token_parent_span(token)
+        if len(span) < min_length:
+            left, right = get_expansion_params(span, min_length)
+            span = expand_span(span, left, right)
         token._.parent_span = span          
 
     return doc
