@@ -9,3 +9,5 @@ LONG TERM
 
 1. Write pandas pipeline for feeding dataframes to NLP pipeline.
 2. Improve organization and documentation of tests.
+3. Implement punctuation search for parent_span() function.
+4. Add support for multi-word phrases using spacy pattern matching.
