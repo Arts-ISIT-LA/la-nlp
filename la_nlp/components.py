@@ -29,17 +29,31 @@ def get_token_parent_span(
 
     Args:
         token (Token): spacy Token object to get the parent span of.
-        min_length (int): Minimum length 
+        min_length (int): Minimum length of parent span. This will be ignored
+            if the sentence itself is shorter min_length.
 
     Returns:
         Span: spacy Span object containing the Token passed into the function.
     """
+    def get_children_indices(head):
+        """Recursively gets indices of head's children and children of children.
+
+        Args:
+            head (Token): Token to get the indices of children for.
+
+        Returns:
+            list: List of indices of child tokens (indices are the locations of
+                the children within the parent Doc object).
+        """
+        indices = [token.i for token in head.children]
+        indices.append(head.i)
+        for child in head.children:
+            indices.extend(get_children_indices(child))
+        indices.sort()
+        return indices
+
+    indices = get_children_indices(token.head)
     doc = token.doc
-    head = token.head
-    siblings = head.children
-    indices = [token.i for token in siblings]
-    indices.append(head.i)
-    indices.sort()
     first = indices[0]
     last = indices[-1]
     if last >= len(doc):
