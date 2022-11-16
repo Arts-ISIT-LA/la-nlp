@@ -2,8 +2,6 @@
 SHORT TERM
 
 1. Write docstrings for aspect_sentiment.py and config.py.
-2. Try new implementation of minimum span lengths by taking children of the
-   head of the head of the token.
 
 --------------------------------------------------------------------------------
 LONG TERM
@@ -12,3 +10,4 @@ LONG TERM
 2. Improve organization and documentation of tests.
 3. Implement punctuation search for parent_span() function.
 4. Add support for multi-word phrases using spacy pattern matching.
+5. Rebase git repository and squash commits.
