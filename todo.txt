@@ -2,6 +2,8 @@
 SHORT TERM
 
 1. Write docstrings for aspect_sentiment.py and config.py.
+2. Try new implementation of minimum span lengths by taking children of the
+   head of the head of the token.
 
 --------------------------------------------------------------------------------
 LONG TERM
