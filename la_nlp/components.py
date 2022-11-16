@@ -35,7 +35,7 @@ def get_token_parent_span(
     Returns:
         Span: spacy Span object containing the Token passed into the function.
     """
-    def get_children_indices(head):
+    def get_children_indices(head: Token) -> list:
         """Recursively gets indices of head's children and children of children.
 
         Args:
