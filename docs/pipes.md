@@ -18,8 +18,54 @@ The resulting `Doc` object will contain standard `spacy` attributes along with a
 
 ## `la_nlp.pipes.aspect_sentiment`
 
-The `aspect_sentiment` pipeline conducts aspect-based sentiment analysis on the text based into it. Aspect-based sentiment analysis is an NLP technique used for determining the sentiment (positivity/negativity) towards various aspects (topics) contained within a text. This technique provides a more accurate picture of the opinions expressed in a text when compared to traditional sentiment analysis, which has many downsides.
+### Importing
 
-### The problem with traditional sentiment analysis
+This module can be imported using the following code:
 
-Traditionally, sentiment analysis is done using all words in a given text and computing an overall sentiment score for all of the words combined. This works quite well for very short texts (no longer than one sentence), but tends to break down with longer texts.
+```
+from la_nlp.pipes import aspect_sentiment as asp
+```
+
+### `asp.make_doc(text)`
+
+Generates a `spacy` `Doc` object from the input text via the `aspect_sentiment` NLP pipeline.
+
+**Parameters**
+
+`text` (*str*) -- The text to generate a `Doc` from.
+<br>
+`aspects` (*dict*, optional) -- A dictionary of aspects and corresponding keywords to use for analysis of the input text. If no argument is passed, the module will use the default aspects in  `la_nlp/data/aspects.toml`. Should take following form:
+
+```
+{
+    'aspect1': ['keyword1', 'keyword2', 'keyword3'],
+    'aspect2': ['keyword4', 'keyword5'],
+}
+```
+In the above case, the text will be searched for all references to 'keyword4' and 'keyword5', and map their sentiments to the 'aspect2'.
+<br>
+`parent_span_min_length` (*int*, optional) -- The minimum length for parent spans upon which sentiment scores will be calculated. Sometimes the model evaluates the parent span of a word to be exceptionally short (sometimes only 'the *aspect*') which is obviously not very useful. This parameter allows you to set a minimum length for these spans. Defaults to 7.
+
+**Returns**
+
+`doc` -- A `spacy` `Doc` object with the following custom attributes assigned for ABSA:
+
+* `Doc._.contains_aspect` (*bool*) -- True if `Doc` contains any of the keywords passed with the `aspects` parameter. False if none were found.
+* `Doc._.aspects` (*list*) -- A list of all aspects found within the text.
+* `Doc._.keywords` (*list*) -- A list of `spacy` `Token` objects whose lemma correspond to the keywords passed via the `aspects` parameter.
+* `Token._.aspect` (*str*) -- The corresponding aspect for each keyword found in the text. This attribute is assigned to all `Token` objects, but will return `None` for all non-keyword tokens.
+* `Token._.parent_span` (*Span*) -- A `spacy` `Span` object with the segment of the text that contains the token. This attribute is assigned to all `Token` objects, but will return `None` for all non-keyword tokens due to performance. This behaviour can be disabled by directly calling the `parent_span()` function in `la_nlp.components`.
+* `Span._.sentiment` (*float*) -- The compound sentiment score calculated for the corresponding `Span` object using VADER. This attribute is assigned to all `Span` objects, but will return `None` for all spans that are **not** parent spans of a keyword. This behaviour can be disabled by directly calling the `parent_span_sentiment()` function in `la_nlp.components`.
+* `Doc._.aspect_sentiments` (*dict*) -- Returns a dictionary of each aspect passed into the `make_doc()` function with corresponding sentiment scores. Aspects with no keywords found in the text will be assigned a `None` value. Calculation of these scores is done by taking the mean of the sentiments of all keywords corresponding to each aspect.
+
+**Typical usage**
+
+```
+from la_nlp.pipes import aspect_sentiment as asp
+
+text = "I enjoyed the course, but the readings were boring."
+doc = asp.make_doc(text)
+
+print(doc._.aspect_sentiments)
+
+# output: {'course': 0.2846, 'content': -0.4497, 'assignments': None, 'tests': None, 'instructor': None}
