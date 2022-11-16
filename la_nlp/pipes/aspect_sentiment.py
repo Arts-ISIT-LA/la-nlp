@@ -6,7 +6,7 @@ ASPECTS = config.get_aspects()
 
 NLP = load_model('en_core_web_lg')
 
-def make_doc(text, nlp=NLP, aspects=ASPECTS, parent_span_min_length=7):
+def make_doc(text, aspects=ASPECTS, parent_span_min_length=7):
     keywords = []
     for keywords_list in aspects.values():
         keywords.extend(keywords_list)
@@ -18,7 +18,7 @@ def make_doc(text, nlp=NLP, aspects=ASPECTS, parent_span_min_length=7):
             'parent_span_min_length': parent_span_min_length, 
         }
     }
-    return nlp(text, component_cfg=cfg)
+    return NLP(text, component_cfg=cfg)
 
 @Language.component('aspect_sentiment_pipe')
 def aspect_sentiment_pipe(doc, base_aspects, base_keywords, parent_span_min_length=7):
