@@ -1,8 +1,7 @@
 --------------------------------------------------------------------------------
 SHORT TERM
 
-1. Write usage documentation for aspect_sentiment pipeline.
-2. Write docstrings for aspect_sentiment.py and config.py.
+1. Write docstrings for aspect_sentiment.py and config.py.
 
 --------------------------------------------------------------------------------
 LONG TERM
