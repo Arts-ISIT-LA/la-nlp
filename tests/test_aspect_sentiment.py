@@ -104,12 +104,12 @@ def test_attribute_keyword_aspects(doc1):
 
 
 def test_attribute_parent_span(doc1, doc2):
-    assertion1 = "Span should read 'long and the professor was mean'"
-    doc1_target = 'long and the professor was mean.'
+    assertion1 = "Span should read 'the professor was mean'"
+    doc1_target = 'the professor was mean'
     token1 = doc1._.keywords[2]
     assert token1._.parent_span.text == doc1_target, assertion1
 
-    assertion2 = "Span should read 'that does not contain any target aspects'"
+    assertion2 = "Span should be None"
     doc2_target = None
     token2 = doc2[-3]
     assert token2._.parent_span == doc2_target, assertion2
@@ -117,10 +117,10 @@ def test_attribute_parent_span(doc1, doc2):
 def test_attribute_parent_span_length(doc4):
     kw = doc4._.keywords[0]
     span = kw._.parent_span
-    target = "Professor Doe was a very passionate lecturer"
-    assertion = "Span should read 'Professor Doe was a very passionate " \
-        "lecturer'. If not being computed correctly, span will likely read " \
-        "only 'Professor Doe'."
+    target = "Professor Doe was a very passionate lecturer who presented the " \
+        "material quite differently from other political science courses I " \
+        "have taken."
+    assertion = f"Span should read {target}"
 
     assert span.text == target, assertion
 
@@ -143,9 +143,9 @@ def test_attribute_aspect_sentiments(doc1, doc3):
 
     assert doc1._.aspect_sentiments == target_sentiments1, assertion1
 
-    target_course_sentiment = 0.6908
+    target_course_sentiment = 0.43095
     course_sentiment = doc3._.aspect_sentiments['course']
 
-    assertion2 = 'doc3 course sentiment value should within 0.00001 of 0.6908'
+    assertion2 = 'doc3 course sentiment value should within 0.00001 of 0.43095'
 
     assert abs(target_course_sentiment-course_sentiment) <= 0.00001, assertion2
