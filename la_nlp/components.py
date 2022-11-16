@@ -23,11 +23,13 @@ def set_extension(
 
 def get_token_parent_span(
     token: Token,
+    min_length: int,
 ) -> Span:
     """Takes a Token object and returns its Span from the parent Doc.
 
     Args:
         token (Token): spacy Token object to get the parent span of.
+        min_length (int): Minimum length 
 
     Returns:
         Span: spacy Span object containing the Token passed into the function.
@@ -44,6 +46,8 @@ def get_token_parent_span(
         span = doc[first:]
     else:
         span = doc[first:last+1]
+    if len(span) < min_length and token.head != token.head.head:
+        span = get_token_parent_span(token.head, min_length=min_length)
     return span
 
 def contains_aspect(
@@ -224,58 +228,6 @@ def parent_span(
         Doc: Processed Doc object with Token objects containing the
             'parent_span' attribute.
     """
-    def get_expansion_params(
-        span: Span,
-        target_length: int,
-    ) -> tuple[int, int]:
-        """Fetches parameters for the expand_span() function.
-
-        Args:
-            span (Span): The Span object for which to return expansion
-                parameters for.
-            target_length (int): Target length of the span.
-
-        Returns:
-            tuple[int, int]: The left and right expansion distance for the Span.
-        """
-        doc = span.doc
-        target_expansion = target_length - len(span)
-        start = span.start
-        end = span.end
-        left = int(target_expansion / 2)
-        right = int(target_expansion / 2) + (target_expansion % 2 > 0)
-        doc_remainder = len(doc) - (end + 1)
-
-        if start < left:
-            right = right + left - start
-            left = left - (left - start)
-        elif doc_remainder < right:
-            left = left + right - doc_remainder
-            right = right - (right - doc_remainder)
-
-        return left, right
-
-    def expand_span(
-        span: Span,
-        left: int,
-        right: int,
-    ) -> Span:
-        """Expands the span by left+right tokens.
-
-        Args:
-            span (Span): The span to be expanded
-            left (int): Number of tokens to add to the left.
-            right (int): Number of tokens to add to the right.
-
-        Returns:
-            Span: Expanded Span object.
-        """
-        if len(span.doc) < (left + right):
-            return span.doc[0:]
-        start = span.start - left
-        end = span.end + right
-        return span.doc[start:end]
-
     set_extension('parent_span', target_obj=Token)
 
     if include_non_keywords == True:
@@ -288,11 +240,8 @@ def parent_span(
         raise ValueError('include_non_keywords takes only True or False')
 
     for token in tokens:
-        span = get_token_parent_span(token)
-        if len(span) < min_length:
-            left, right = get_expansion_params(span, min_length)
-            span = expand_span(span, left, right)
-        token._.parent_span = span          
+        span = get_token_parent_span(token, min_length=min_length)
+        token._.parent_span = span
 
     return doc
 

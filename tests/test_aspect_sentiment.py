@@ -35,12 +35,12 @@ TEST_TEXT_4 = "Professor Doe was a very passionate lecturer who presented " \
 
 @pytest.fixture
 def doc1():
-    doc1 = asp.make_doc(TEST_TEXT_1, aspects=ASPECTS_1)
+    doc1 = asp.make_doc(TEST_TEXT_1, aspects=ASPECTS_1, parent_span_min_length=0)
     return doc1
 
 @pytest.fixture
 def doc2():
-    doc2 = asp.make_doc(TEST_TEXT_2, aspects=ASPECTS_1)
+    doc2 = asp.make_doc(TEST_TEXT_2, aspects=ASPECTS_1, parent_span_min_length=0)
     return doc2
 
 @pytest.fixture

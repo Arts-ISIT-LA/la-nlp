@@ -18,7 +18,7 @@ def nlp():
 def test_function_get_token_parent_span(nlp):
     text = "Hello world!"
     doc = nlp(text)
-    assert comp.get_token_parent_span(doc[0]).text == text
+    assert comp.get_token_parent_span(doc[0], min_length=7).text == text
 
 def test_function_contains_aspect(nlp):
     doc = nlp(TEST_TEXT_1)
