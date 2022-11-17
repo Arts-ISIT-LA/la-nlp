@@ -64,7 +64,7 @@ def get_token_parent_span(
         span = get_token_parent_span(token.head, min_length=min_length)
     return span
 
-def contains_aspect(
+def set_doc_contains_aspect(
     doc: Doc,
     base_keywords: list,
 ) -> Doc:
@@ -95,7 +95,7 @@ def contains_aspect(
     
     return doc
 
-def aspects(
+def set_doc_aspects(
     doc: Doc,
     base_aspects: dict,
 ) -> Doc:
@@ -132,7 +132,7 @@ def aspects(
         doc._.aspects = aspects_contained
     return doc
 
-def keywords(
+def set_doc_keywords(
     doc: Doc,
     base_keywords: list,
 ) -> Doc:
@@ -163,7 +163,7 @@ def keywords(
         doc._.keywords = keywords
     return doc
 
-def keyword_aspects(
+def set_token_aspects(
     doc: Doc,
     base_aspects: dict,
 ) -> Doc:
@@ -208,7 +208,7 @@ def keyword_aspects(
 
     return doc
 
-def parent_span(
+def set_token_parent_span(
     doc: Doc,
     include_non_keywords: bool = False,
     min_length: int = 7,
@@ -259,7 +259,7 @@ def parent_span(
 
     return doc
 
-def parent_span_sentiment(
+def set_span_sentiment(
     doc: Doc,
     include_non_keywords: bool = False, # Can only be True if parent_span True
 ) -> Doc:
@@ -312,11 +312,11 @@ def parent_span_sentiment(
     
     return doc
 
-def aspect_sentiments(
+def set_doc_aspect_sentiments(
     doc: Doc,
     base_aspects: dict,
 ) -> Doc:
-    """Takes a Doc and returns a new Doc with the aspect_sentiments attribute.
+    """Takes a Doc and returns a new Doc with the 'aspect_sentiments' attribute.
 
     Accessed via 'Doc._.aspect_sentiments', the 'aspect_sentiments' attribute
     represents the sentiment scores for all of the aspects discussed in the Doc.
