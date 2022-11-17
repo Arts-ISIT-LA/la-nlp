@@ -3,12 +3,11 @@ SHORT TERM
 
 1. Write docstrings for aspect_sentiment.py and config.py.
 2. Add support for loading aspects from a file.
+3. Update docstrings and documentation with new component function names.
 
 --------------------------------------------------------------------------------
 LONG TERM
 
 1. Write pandas pipeline for feeding dataframes to NLP pipeline.
 2. Improve organization and documentation of tests.
-3. Implement punctuation search for parent_span() function.
-4. Add support for multi-word phrases using spacy pattern matching.
-5. Rebase git repository and squash commits.
+3. Add support for multi-word phrases using spacy pattern matching.
