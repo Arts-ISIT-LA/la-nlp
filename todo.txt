@@ -2,6 +2,7 @@
 SHORT TERM
 
 1. Write docstrings for aspect_sentiment.py and config.py.
+2. Add support for loading aspects from a file.
 
 --------------------------------------------------------------------------------
 LONG TERM
