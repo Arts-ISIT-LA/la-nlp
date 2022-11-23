@@ -1,11 +1,10 @@
 --------------------------------------------------------------------------------
 SHORT TERM
 
-1. Update docstrings and documentation with new component function names.
+1. Write docstrings for tests
 
 --------------------------------------------------------------------------------
 LONG TERM
 
 1. Write pandas pipeline for feeding dataframes to NLP pipeline.
-2. Improve organization and documentation of tests.
-3. Add support for multi-word phrases using spacy pattern matching.
+2. Add support for multi-word phrases using spacy pattern matching.
