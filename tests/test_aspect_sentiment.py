@@ -60,6 +60,8 @@ def doc4():
     return doc4
 
 def test_function_make_doc(doc1, doc3):
+    """Tests that the make_doc() function returns a spacy Doc object.
+    """
     assertion1 = "Should be a spacy Doc object"
     assert isinstance(doc1, Doc), assertion1
 
@@ -69,6 +71,8 @@ def test_function_make_doc(doc1, doc3):
     assert isinstance(doc3, Doc)
 
 def test_attribute_contains_aspect(doc1, doc2):
+    """Tests that docs are assigned the contains_aspect attribute as expected.
+    """
     assertion1 = "doc1 should return True"
     assert doc1._.contains_aspect == True, assertion1
 
@@ -77,6 +81,8 @@ def test_attribute_contains_aspect(doc1, doc2):
 
 
 def test_attribute_aspects(doc1, doc2):
+    """Tests that docs are assigned the aspects attribute as expected.
+    """
     assertion1 = "doc1 should contain 'course', 'content', and 'instructor'"
     doc1_aspects = ['course', 'content', 'instructor']
     assert doc1._.aspects == doc1_aspects, assertion1
@@ -86,6 +92,8 @@ def test_attribute_aspects(doc1, doc2):
     assert doc2._.aspects == doc2_aspects, assertion2
 
 def test_attribute_keywords(doc1, doc2):
+    """Tests that docs are assigned the keywords attribute as expected.
+    """
     assertion1 = "doc1 should contain keyword %s"
     doc1_targets = ['course', 'reading', 'professor']
     doc1_keywords = [kw.lemma_.lower() for kw in doc1._.keywords]
@@ -97,6 +105,8 @@ def test_attribute_keywords(doc1, doc2):
     assert doc2._.keywords == doc2_targets, assertion2
 
 def test_attribute_keyword_aspects(doc1):
+    """Tests that tokens are assigned the aspect attribute as expected.
+    """
     assertion = "%s aspect should be %s"
     target_aspects = ['course', 'content', 'instructor']
     for keyword, aspect in zip(doc1._.keywords, target_aspects):
@@ -104,6 +114,8 @@ def test_attribute_keyword_aspects(doc1):
 
 
 def test_attribute_parent_span(doc1, doc2):
+    """Tests that tokens are assigned the parent span attribute as expected.
+    """
     assertion1 = "Span should read 'the professor was mean'"
     doc1_target = 'the professor was mean'
     token1 = doc1._.keywords[2]
@@ -115,6 +127,7 @@ def test_attribute_parent_span(doc1, doc2):
     assert token2._.parent_span == doc2_target, assertion2
 
 def test_attribute_parent_span_length(doc4):
+    """Tests that token parent spans are above minimum length."""
     kw = doc4._.keywords[0]
     span = kw._.parent_span
     target = "Professor Doe was a very passionate lecturer who presented the " \
@@ -124,6 +137,8 @@ def test_attribute_parent_span_length(doc4):
     assert span.text == target, assertion
 
 def test_attribute_parent_span_sentiment(doc1):
+    """Tests that spans are assigned sentiment attribute as expected.
+    """
     assertion = "course parent span sentiment should be 0.2846"
     span = doc1._.keywords[0]._.parent_span
     target_sentiment = 0.2846
@@ -131,6 +146,8 @@ def test_attribute_parent_span_sentiment(doc1):
     assert span._.sentiment == target_sentiment, assertion
 
 def test_attribute_aspect_sentiments(doc1, doc3):
+    """Tests that docs are assigned aspect sentiments attribute as expected.
+    """
     target_sentiments1 = {
         'course': 0.2846,
         'content': 0,
@@ -150,6 +167,8 @@ def test_attribute_aspect_sentiments(doc1, doc3):
     assert abs(target_course_sentiment-course_sentiment) <= 0.00001, assertion2
 
 def test_make_doc_with_aspects_from_file():
+    """Tests that make_doc() function is able to accept aspects from file path.
+    """
     assertion = "Should successfully take aspects from a file path"
     aspects = ASPECTS_1_PATH
     doc = asp.make_doc(TEST_TEXT_1, aspects=aspects)
@@ -157,6 +176,8 @@ def test_make_doc_with_aspects_from_file():
     assert doc._.aspect_sentiments is not None, assertion
 
 def test_make_doc_error_from_non_path_aspects_string():
+    """Tests that make_doc() function returns ValueError for non-path strings.
+    """
     assertion = "Should raise a ValueError for passing a non-path string to " \
                 "aspects"
     aspects = "This is a string that should raise an error"

@@ -1,3 +1,6 @@
+"""Test functions to ensure that components are properly setting extensions.
+"""
+
 from la_nlp import components as comp
 from spacy import load as load_model
 from spacy.tokens import Doc
