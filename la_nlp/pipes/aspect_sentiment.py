@@ -6,7 +6,8 @@ from spacy.tokens import Doc
 
 DEFAULT_ASPECTS = utils.get_default_aspects()
 
-NLP = load_model('en_core_web_lg')
+NLP = load_model("en_core_web_lg")
+
 
 def make_doc(
     text: str,
@@ -36,20 +37,21 @@ def make_doc(
     if isinstance(aspects, str) and os.path.isfile(aspects):
         aspects = utils.get_aspects_from_file(aspects)
     elif not isinstance(aspects, dict):
-        raise ValueError('Aspects must be either a dict or path to .toml file')
+        raise ValueError("Aspects must be either a dict or path to .toml file")
 
     keywords = utils.get_keywords_from_aspects(aspects)
-    
+
     cfg = {
-        'aspect_sentiment_pipe': {
-            'aspects': aspects,
-            'keywords': keywords,
-            'parent_span_min_length': parent_span_min_length, 
+        "aspect_sentiment_pipe": {
+            "aspects": aspects,
+            "keywords": keywords,
+            "parent_span_min_length": parent_span_min_length,
         }
     }
     return NLP(text, component_cfg=cfg)
 
-@Language.component('aspect_sentiment_pipe')
+
+@Language.component("aspect_sentiment_pipe")
 def aspect_sentiment_pipe(
     doc: Doc,
     aspects: dict,
@@ -66,9 +68,11 @@ def aspect_sentiment_pipe(
     doc = components.set_doc_aspects(doc, aspects)
     doc = components.set_doc_keywords(doc, keywords)
     doc = components.set_token_aspects(doc, aspects)
-    doc = components.set_token_parent_span(doc, min_length=parent_span_min_length)
+    doc = components.set_token_parent_span(
+        doc, min_length=parent_span_min_length)
     doc = components.set_span_sentiment(doc)
     doc = components.set_doc_aspect_sentiments(doc, aspects)
     return doc
 
-NLP.add_pipe('aspect_sentiment_pipe')
+
+NLP.add_pipe("aspect_sentiment_pipe")

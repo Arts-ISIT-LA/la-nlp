@@ -22,6 +22,7 @@ def set_extension(
     if not target_obj.has_extension(extension_name):
         target_obj.set_extension(extension_name, default=default_val)
 
+
 def get_token_parent_span(
     token: Token,
     min_length: int,
@@ -36,6 +37,7 @@ def get_token_parent_span(
     Returns:
         Span: spacy Span object containing the Token passed into the function.
     """
+
     def get_children_indices(head: Token) -> list:
         """Recursively gets indices of head's children and children of children.
 
@@ -60,10 +62,11 @@ def get_token_parent_span(
     if last >= len(doc):
         span = doc[first:]
     else:
-        span = doc[first:last+1]
+        span = doc[first : last + 1]
     if len(span) < min_length and token.head != token.head.head:
         span = get_token_parent_span(token.head, min_length=min_length)
     return span
+
 
 # Component functions
 def set_doc_contains_aspect(
@@ -88,14 +91,15 @@ def set_doc_contains_aspect(
     Returns:
         Doc: Processed Doc object with the 'contains_aspect' attribute.
     """
-    set_extension('contains_aspect', default_val=False)
-    
+    set_extension("contains_aspect", default_val=False)
+
     for token in doc:
         if token.lemma_.lower() in base_keywords:
             doc._.contains_aspect = True
             break
-    
+
     return doc
+
 
 def set_doc_aspects(
     doc: Doc,
@@ -120,8 +124,8 @@ def set_doc_aspects(
     Returns:
         Doc: Processed Doc object with the 'aspects' attribute.
     """
-    set_extension('aspects')
-    
+    set_extension("aspects")
+
     if doc._.contains_aspect == True:
         aspects_contained = []
         for token in doc:
@@ -133,6 +137,7 @@ def set_doc_aspects(
                     aspects_contained.append(aspect)
         doc._.aspects = aspects_contained
     return doc
+
 
 def set_doc_keywords(
     doc: Doc,
@@ -155,7 +160,7 @@ def set_doc_keywords(
     Returns:
         Doc: Processed Doc object with the 'keywords' attribute.
     """
-    set_extension('keywords')
+    set_extension("keywords")
 
     if doc._.contains_aspect == True:
         keywords = []
@@ -164,6 +169,7 @@ def set_doc_keywords(
                 keywords.append(token)
         doc._.keywords = keywords
     return doc
+
 
 def set_token_aspects(
     doc: Doc,
@@ -192,7 +198,7 @@ def set_token_aspects(
         Doc: Processed Doc object with Token objects containing the 'aspect'
             attribute.
     """
-    set_extension('aspect', target_obj=Token)
+    set_extension("aspect", target_obj=Token)
 
     if doc._.keywords == None:
         return doc
@@ -209,6 +215,7 @@ def set_token_aspects(
             continue
 
     return doc
+
 
 def set_token_parent_span(
     doc: Doc,
@@ -245,7 +252,7 @@ def set_token_parent_span(
         Doc: Processed Doc object with Token objects containing the
             'parent_span' attribute.
     """
-    set_extension('parent_span', target_obj=Token)
+    set_extension("parent_span", target_obj=Token)
 
     if include_non_keywords == True:
         tokens = doc
@@ -254,7 +261,7 @@ def set_token_parent_span(
     elif include_non_keywords == False and doc._.keywords is None:
         return doc
     else:
-        raise ValueError('include_non_keywords takes only True or False')
+        raise ValueError("include_non_keywords takes only True or False")
 
     for token in tokens:
         span = get_token_parent_span(token, min_length=min_length)
@@ -262,9 +269,10 @@ def set_token_parent_span(
 
     return doc
 
+
 def set_span_sentiment(
     doc: Doc,
-    include_non_keywords: bool = False, # Can only be True if parent_span True
+    include_non_keywords: bool = False,  # Can only be True if parent_span True
 ) -> Doc:
     """Takes a Doc and adds the 'sentiment' attribute to its Span objects.
 
@@ -285,7 +293,7 @@ def set_span_sentiment(
     Args:
         doc (Doc): The Doc object for whose Token objects to set the attribute
             on.
-        include_non_keywords (bool, optional): Whether or not to assign 
+        include_non_keywords (bool, optional): Whether or not to assign
             sentiments to parent spans of non-keyword Token objects. Defaults to
             False.
 
@@ -296,24 +304,25 @@ def set_span_sentiment(
         Doc: Processed Doc object with Span objects containing the
             'sentiment' attribute.
     """
-    set_extension('sentiment', target_obj=Span)
+    set_extension("sentiment", target_obj=Span)
 
     if include_non_keywords == True:
         tokens = doc
     elif include_non_keywords == False:
         tokens = doc._.keywords
     else:
-        raise ValueError('include_non_keywords takes only True or False')
-    
+        raise ValueError("include_non_keywords takes only True or False")
+
     if tokens == None:
         return doc
-    
+
     for token in tokens:
         scores = ANALYZER.polarity_scores(token._.parent_span.text)
-        sentiment = scores['compound']
+        sentiment = scores["compound"]
         token._.parent_span._.sentiment = sentiment
-    
+
     return doc
+
 
 def set_doc_aspect_sentiments(
     doc: Doc,
@@ -346,9 +355,9 @@ def set_doc_aspect_sentiments(
     Returns:
         Doc: Processed Doc object with 'aspect_sentiments' attribute.
     """
-    aspect_sentiments = {aspect:None for aspect in base_aspects}
-    set_extension('aspect_sentiments', default_val = aspect_sentiments)
-  
+    aspect_sentiments = {aspect: None for aspect in base_aspects}
+    set_extension("aspect_sentiments", default_val=aspect_sentiments)
+
     if doc._.keywords is not None:
         for keyword in doc._.keywords:
             aspect = keyword._.aspect
@@ -357,14 +366,14 @@ def set_doc_aspect_sentiments(
             if aspect_sentiments[aspect] is None:
                 aspect_sentiments[aspect] = []
             aspect_sentiments[aspect].append(sentiment)
-    
+
         for aspect in aspect_sentiments:
             sentiments = aspect_sentiments[aspect]
             if sentiments == None:
                 continue
             sentiment = sum(sentiments) / len(sentiments)
             aspect_sentiments[aspect] = sentiment
-    
+
     doc._.aspect_sentiments = aspect_sentiments
 
     return doc
