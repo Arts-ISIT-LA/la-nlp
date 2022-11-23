@@ -2,7 +2,7 @@ from la_nlp import components, utils
 from spacy import load as load_model
 from spacy.language import Language
 
-ASPECTS = utils.get_aspects()
+ASPECTS = utils.get_aspects_from_file()
 
 NLP = load_model('en_core_web_lg')
 

@@ -6,7 +6,7 @@ PROJECT_DIR = os.path.dirname(FILE_DIR)
 DATA_DIR = os.path.join(FILE_DIR, 'data')
 ASPECT_FILE = os.path.join(DATA_DIR, 'aspects.toml')
 
-def get_aspects(file_path=ASPECT_FILE):
+def get_aspects_from_file(file_path=ASPECT_FILE):
     with open(file_path, 'rb') as file:
         aspects = tomllib.load(file)
     return aspects

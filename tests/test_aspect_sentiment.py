@@ -7,10 +7,10 @@ from spacy.tokens import Doc
 FILE_DIR = os.path.dirname(__file__)
 
 ASPECTS_1_PATH = os.path.join(FILE_DIR, 'test_data', 'test_aspects_1.toml')
-ASPECTS_1 = utils.get_aspects(ASPECTS_1_PATH)
+ASPECTS_1 = utils.get_aspects_from_file(ASPECTS_1_PATH)
 
 ASPECTS_2_PATH = os.path.join(FILE_DIR, 'test_data', 'test_aspects_2.toml')
-ASPECTS_2 = utils.get_aspects(ASPECTS_2_PATH)
+ASPECTS_2 = utils.get_aspects_from_file(ASPECTS_2_PATH)
 
 TEST_TEXT_1 = """
 I enjoyed the course, but the readings were too long and the professor was mean.
