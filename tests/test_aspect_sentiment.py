@@ -25,13 +25,13 @@ The class was good. I liked the course.
 """
 
 TEST_TEXT_4 = "Professor Doe was a very passionate lecturer who presented " \
-    "the material quite differently from other political science courses I " \
-    "have taken. The only 'problem' I had with his course was how much bias " \
-    "and personal opinion he interjected in his lectures. A lot of the " \
-    "material presented was really just opinion and we spent too much time " \
-    "on that, which did not effectively facilitate learning of the subject " \
-    "matter. The extra material he brought in, however, was quite " \
-    "interesting and helped provide deeper understanding of certain subjects."
+    "the material quite differently from other courses I have taken. The " \
+    " only 'problem' I had with his course was how much bias and personal " \
+    "opinion they interjected in their lectures. A lot of the material " \
+    "presented was really just opinion and we spent too much time on that, " \
+    "which did not effectively facilitate learning of the subject matter. " \
+    "The extra material they brought in, however, was quite interesting and " \
+    "helped provide deeper understanding of certain subjects."
 
 @pytest.fixture
 def doc1():
@@ -118,8 +118,7 @@ def test_attribute_parent_span_length(doc4):
     kw = doc4._.keywords[0]
     span = kw._.parent_span
     target = "Professor Doe was a very passionate lecturer who presented the " \
-        "material quite differently from other political science courses I " \
-        "have taken."
+        "material quite differently from other courses I have taken."
     assertion = f"Span should read {target}"
 
     assert span.text == target, assertion
