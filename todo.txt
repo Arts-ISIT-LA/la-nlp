@@ -1,9 +1,7 @@
 --------------------------------------------------------------------------------
 SHORT TERM
 
-1. Write docstrings for aspect_sentiment.py and config.py.
-2. Add support for loading aspects from a file.
-3. Update docstrings and documentation with new component function names.
+1. Update docstrings and documentation with new component function names.
 
 --------------------------------------------------------------------------------
 LONG TERM
