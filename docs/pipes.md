@@ -34,7 +34,7 @@ Generates a `spacy` `Doc` object from the input text via the `aspect_sentiment` 
 
 `text` (*str*) -- The text to generate a `Doc` from.
 <br>
-`aspects` (*dict*, optional) -- A dictionary of aspects and corresponding keywords to use for analysis of the input text. If no argument is passed, the module will use the default aspects in  `la_nlp/data/aspects.toml`. Should take following form:
+`aspects` (*dict* or *str*, optional) -- A dictionary of aspects and corresponding keywords to use for analysis of the input text, or the path to a .toml file containing the aspect-keyword mappings. If no argument is passed, the module will use the default aspects in  `la_nlp/data/aspects.toml`. If a dict, should take following form:
 
 ```
 {
@@ -43,8 +43,16 @@ Generates a `spacy` `Doc` object from the input text via the `aspect_sentiment` 
 }
 ```
 In the above case, the text will be searched for all references to 'keyword4' and 'keyword5', and map their sentiments to the 'aspect2'.
+
+If passing a path, the .toml file should take the following form:
+
+```
+aspect1 = ['keyword1', 'keyword2', 'keyword3']
+aspect2 = ['keyword4', 'keyword5']
+```
+The aspects wthin the .toml file will then be automatically converted into the dict described above.
 <br>
-`parent_span_min_length` (*int*, optional) -- The minimum length for parent spans upon which sentiment scores will be calculated. Sometimes the model evaluates the parent span of a word to be exceptionally short (sometimes only 'the *aspect*') which is obviously not very useful. This parameter allows you to set a minimum length for these spans. Defaults to 7.
+`parent_span_min_length` (*int*, optional) -- The minimum length for parent spans upon which sentiment scores will be calculated. Sometimes the model evaluates the parent span of a word to be exceptionally short (sometimes only 'the \*aspect\*') which is obviously not very useful. This parameter allows you to set a minimum length for these spans. Defaults to 7.
 
 **Returns**
 
