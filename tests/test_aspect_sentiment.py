@@ -1,16 +1,16 @@
 import os
 from la_nlp.pipes import aspect_sentiment as asp
-from la_nlp import config
+from la_nlp import utils
 import pytest
 from spacy.tokens import Doc
 
 FILE_DIR = os.path.dirname(__file__)
 
 ASPECTS_1_PATH = os.path.join(FILE_DIR, 'test_data', 'test_aspects_1.toml')
-ASPECTS_1 = config.get_aspects(ASPECTS_1_PATH)
+ASPECTS_1 = utils.get_aspects(ASPECTS_1_PATH)
 
 ASPECTS_2_PATH = os.path.join(FILE_DIR, 'test_data', 'test_aspects_2.toml')
-ASPECTS_2 = config.get_aspects(ASPECTS_2_PATH)
+ASPECTS_2 = utils.get_aspects(ASPECTS_2_PATH)
 
 TEST_TEXT_1 = """
 I enjoyed the course, but the readings were too long and the professor was mean.

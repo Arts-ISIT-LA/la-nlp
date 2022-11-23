@@ -4,6 +4,7 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 # Initializing the VADER sentiment analyzer for use within sentiment components
 ANALYZER = SentimentIntensityAnalyzer()
 
+# Helper functions
 def set_extension(
     extension_name: str,
     default_val: any = None,
@@ -64,6 +65,7 @@ def get_token_parent_span(
         span = get_token_parent_span(token.head, min_length=min_length)
     return span
 
+# Component functions
 def set_doc_contains_aspect(
     doc: Doc,
     base_keywords: list,

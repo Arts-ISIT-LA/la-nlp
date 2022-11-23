@@ -1,15 +1,13 @@
-from la_nlp import components, config
+from la_nlp import components, utils
 from spacy import load as load_model
 from spacy.language import Language
 
-ASPECTS = config.get_aspects()
+ASPECTS = utils.get_aspects()
 
 NLP = load_model('en_core_web_lg')
 
 def make_doc(text, aspects=ASPECTS, parent_span_min_length=7):
-    keywords = []
-    for keywords_list in aspects.values():
-        keywords.extend(keywords_list)
+    keywords = utils.get_keywords_from_aspects(aspects)
     
     cfg = {
         'aspect_sentiment_pipe': {

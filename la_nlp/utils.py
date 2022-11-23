@@ -10,3 +10,9 @@ def get_aspects(file_path=ASPECT_FILE):
     with open(file_path, 'rb') as file:
         aspects = tomllib.load(file)
     return aspects
+
+def get_keywords_from_aspects(aspects):
+    keywords = []
+    for keywords_list in aspects.values():
+        keywords.extend(keywords_list)
+    return keywords
