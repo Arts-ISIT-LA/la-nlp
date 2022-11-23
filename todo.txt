@@ -1,10 +1,9 @@
 --------------------------------------------------------------------------------
 SHORT TERM
 
-1. Add module level docstrings
+1. Add support for multi-word phrases using spacy pattern matching.
 
 --------------------------------------------------------------------------------
 LONG TERM
 
 1. Write pandas pipeline for feeding dataframes to NLP pipeline.
-2. Add support for multi-word phrases using spacy pattern matching.
