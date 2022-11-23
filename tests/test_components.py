@@ -1,4 +1,4 @@
-"""Test functions to ensure that components are properly setting extensions.
+"""Test functions for the la_nlp.components module.
 """
 
 from la_nlp import components as comp

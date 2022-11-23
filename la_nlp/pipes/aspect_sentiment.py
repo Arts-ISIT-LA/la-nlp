@@ -1,4 +1,14 @@
+"""NLP pipeline for performing aspect-based sentiment analysis with spacy.
+
+This module contains a pipeline for performing aspect-based sentiment analysis
+via the spacy NLP package and the VADER sentiment model. The pipeline can be
+called via the make_doc() function, which accepts a string as input and returns
+a spacy Doc object containing a number of attributes useful for this type of
+analysis. See documentation for a list of attributes assigned by this pipeline.
+"""
+
 import os
+
 from la_nlp import components, utils
 from spacy import load as load_model
 from spacy.language import Language

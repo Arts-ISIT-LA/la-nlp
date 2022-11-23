@@ -1,3 +1,13 @@
+"""NLP components to be used within a spacy pipeline.
+
+This module contains components (along with their helper functions) to be used
+within spacy NLP pipelines. Each component takes a Doc as an input, assigns some
+attribute to one of the core spacy object types (Doc, Span, or Token), and
+returns a Doc containing the set attributes. These components can then be
+assembled into a pipeline, building upon one another and customizing the spacy
+default pipeline.
+"""
+
 from spacy.tokens import Doc, Span, Token
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
@@ -10,7 +20,7 @@ def set_extension(
     default_val: any = None,
     target_obj: Doc | Span | Token = Doc,
 ) -> None:
-    """Sets an extension on a designated spacy object if doesn't already exist.
+    """Sets extension on designated spacy object if it doesn't already exist.
 
     Args:
         extension_name (str): Name of the extension/attribute to be set.

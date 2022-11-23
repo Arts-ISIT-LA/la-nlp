@@ -1,3 +1,6 @@
+"""Test functions for the la_nlp.pipes.aspect_sentiment module.
+"""
+
 import os
 from la_nlp.pipes import aspect_sentiment as asp
 from la_nlp import utils
