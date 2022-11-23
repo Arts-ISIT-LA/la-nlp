@@ -10,7 +10,7 @@ NLP = load_model('en_core_web_lg')
 def make_doc(text, aspects=ASPECTS, parent_span_min_length=7):
     if isinstance(aspects, str) and os.path.isfile(aspects):
         aspects = utils.get_aspects_from_file(aspects)
-    elif isinstance(aspects, str):
+    elif not isinstance(aspects, dict):
         raise ValueError('Aspects must be either a dict or path to .toml file')
 
     keywords = utils.get_keywords_from_aspects(aspects)
