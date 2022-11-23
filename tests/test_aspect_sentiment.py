@@ -148,3 +148,19 @@ def test_attribute_aspect_sentiments(doc1, doc3):
     assertion2 = 'doc3 course sentiment value should within 0.00001 of 0.43095'
 
     assert abs(target_course_sentiment-course_sentiment) <= 0.00001, assertion2
+
+def test_make_doc_with_aspects_from_file():
+    assertion = "Should successfully take aspects from a file path"
+    aspects = ASPECTS_1_PATH
+    doc = asp.make_doc(TEST_TEXT_1, aspects=aspects)
+
+    assert doc._.aspect_sentiments is not None, assertion
+
+def test_make_doc_error_from_non_path_aspects_string():
+    assertion = "Should raise a ValueError for passing a non-path string to " \
+                "aspects"
+    aspects = "This is a string that should raise an error"
+    with pytest.raises(ValueError) as excinfo:
+        target_error = "Aspects must be either a dict or path to .toml file"
+        asp.make_doc(TEST_TEXT_1, aspects=aspects)
+        assert excinfo.value == target_error, assertion
