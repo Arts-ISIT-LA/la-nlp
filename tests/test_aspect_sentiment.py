@@ -30,13 +30,15 @@ The class was good. I liked the course.
 TEST_TEXT_4 = (
     "Professor Doe was a very passionate lecturer who presented "
     "the material quite differently from other courses I have taken. The "
-    " only 'problem' I had with his course was how much bias and personal "
+    "only 'problem' I had with his course was how much bias and personal "
     "opinion they interjected in their lectures. A lot of the material "
     "presented was really just opinion and we spent too much time on that, "
     "which did not effectively facilitate learning of the subject matter. "
     "The extra material they brought in, however, was quite interesting and "
     "helped provide deeper understanding of certain subjects."
 )
+
+TEST_TEXT_5 = "The mid-terms were horrible. I wish the mid term was less boring."
 
 
 @pytest.fixture
@@ -67,6 +69,13 @@ def doc4():
     }
     doc4 = asp.make_doc(TEST_TEXT_4, aspects=aspects)
     return doc4
+
+
+@pytest.fixture
+def doc5():
+    aspects = {"tests": ["mid-term", "mid term"]}
+    doc5 = asp.make_doc(TEST_TEXT_5, aspects=aspects)
+    return doc5
 
 
 def test_function_make_doc(doc1, doc3):
@@ -188,9 +197,21 @@ def test_make_doc_with_aspects_from_file():
 
 def test_make_doc_error_from_non_path_aspects_string():
     """Tests that make_doc() function returns ValueError for non-path strings."""
-    assertion = "Should raise a ValueError for passing a non-path string to " "aspects"
+    assertion = "Should raise a ValueError for passing a non-path string to aspects"
     aspects = "This is a string that should raise an error"
     with pytest.raises(ValueError) as excinfo:
         target_error = "Aspects must be either a dict or path to .toml file"
         asp.make_doc(TEST_TEXT_1, aspects=aspects)
         assert excinfo.value == target_error, assertion
+
+
+def test_multi_word_expression_keywords(doc5):
+    """Tests that multi-word expressions in aspect keywords are not split by tokenizer"""
+    target_len = 13
+    assertion1 = f"Length of doc should be {target_len} tokens"
+    assert len(doc5) == target_len, assertion1
+
+    target_kws = ["mid-term", "mid term"]
+    kws = [kw.lemma_ for kw in doc5._.keywords]
+    assertion2 = f"Keywords in doc should {target_kws}"
+    assert kws == target_kws, assertion2
