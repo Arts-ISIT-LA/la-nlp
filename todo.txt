@@ -1,9 +1,9 @@
 --------------------------------------------------------------------------------
 SHORT TERM
 
-1. Add support for multi-word phrases using spacy pattern matching.
+1. Add component for anonymizing text
+2. Write pandas pipeline for feeding dataframes to NLP pipeline.
 
 --------------------------------------------------------------------------------
 LONG TERM
 
-1. Write pandas pipeline for feeding dataframes to NLP pipeline.
