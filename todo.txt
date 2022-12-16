@@ -1,8 +1,7 @@
 --------------------------------------------------------------------------------
 SHORT TERM
 
-1. Add component for anonymizing text
-2. Write pandas pipeline for feeding dataframes to NLP pipeline.
+1. Write pandas pipeline for feeding dataframes to NLP pipeline.
 
 --------------------------------------------------------------------------------
 LONG TERM
