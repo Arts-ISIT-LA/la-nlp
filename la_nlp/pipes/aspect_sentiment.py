@@ -84,10 +84,10 @@ def make_doc(
         }
     }
 
-    disable = ['textcat']
+    disable = ["textcat"]
     if anonymize == False:
-        disable.append('ner')
-        
+        disable.append("ner")
+
     return NLP(text, component_cfg=cfg, disable=disable)
 
 

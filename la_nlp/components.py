@@ -388,6 +388,7 @@ def set_doc_aspect_sentiments(
 
     return doc
 
+
 def set_anonymized(
     doc: Doc,
 ) -> Doc:
@@ -398,9 +399,9 @@ def set_anonymized(
     for token in doc:
         start = token.idx
         stop = token.idx + len(token)
-        if token.ent_type_ != '':
-            anonymized = anonymized[:start] + ('*' * len(token)) + anonymized[stop:]
-    
+        if token.ent_type_ != "":
+            anonymized = anonymized[:start] + ("*" * len(token)) + anonymized[stop:]
+
     doc._.anonymized = anonymized
-    
+
     return doc

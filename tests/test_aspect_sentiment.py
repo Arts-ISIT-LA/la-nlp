@@ -79,6 +79,7 @@ def doc5():
     doc5 = asp.make_doc(TEST_TEXT_5, aspects=aspects)
     return doc5
 
+
 @pytest.fixture
 def doc6():
     doc6 = asp.make_doc(TEST_TEXT_6, anonymize=True)
@@ -222,6 +223,7 @@ def test_multi_word_expression_keywords(doc5):
     kws = [kw.lemma_ for kw in doc5._.keywords]
     assertion2 = f"Keywords in doc should {target_kws}"
     assert kws == target_kws, assertion2
+
 
 def test_anonymized(doc6):
     """Tests that text is being anonymized as intended"""
