@@ -83,7 +83,12 @@ def make_doc(
             "anonymize": anonymize,
         }
     }
-    return NLP(text, component_cfg=cfg)
+
+    disable = ['textcat']
+    if anonymize == False:
+        disable.append('ner')
+        
+    return NLP(text, component_cfg=cfg, disable=disable)
 
 
 @Language.component("aspect_sentiment_pipe")
