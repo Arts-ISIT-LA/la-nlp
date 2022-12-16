@@ -1,4 +1,8 @@
 """Test functions for the la_nlp.components module.
+
+Most of these tests are merely checking that the attributes are being assigned at all,
+paying no mind to whether the assigned values are correct or not. For tests of component
+correctness, see the test suite for a pipeline containing the component in question.
 """
 
 from la_nlp import components as comp

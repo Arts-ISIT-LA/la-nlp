@@ -392,6 +392,24 @@ def set_doc_aspect_sentiments(
 def set_anonymized(
     doc: Doc,
 ) -> Doc:
+    """Takes a Doc and returns a new Doc with the 'anonymized' attribute.
+
+    As its name implies, the 'anonymized' attribute is an anonymized version of the
+    input text. The function uses named entity recognition and is agnostic to the type
+    of named entity. As a result, all named entities will be anonymized, not only
+    persons.
+
+    Target object: spacy Doc
+    Attribute type: string
+    Default value: None
+    Dependency path: N/A
+
+    Args:
+        doc (Doc): The Doc object to set the attribute on.
+
+    Returns:
+        Doc: Processed Doc object with 'anonymized' attribute.
+    """
     set_extension("anonymized")
 
     anonymized = doc.text
