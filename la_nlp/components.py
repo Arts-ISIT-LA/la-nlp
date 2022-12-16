@@ -387,3 +387,20 @@ def set_doc_aspect_sentiments(
     doc._.aspect_sentiments = aspect_sentiments
 
     return doc
+
+def set_anonymized(
+    doc: Doc,
+) -> Doc:
+    set_extension("anonymized")
+
+    anonymized = doc.text
+
+    for token in doc:
+        start = token.idx
+        stop = token.idx + len(token)
+        if token.ent_type_ != '':
+            anonymized = anonymized[:start] + ('*' * len(token)) + anonymized[stop:]
+    
+    doc._.anonymized = anonymized
+    
+    return doc
