@@ -40,6 +40,8 @@ TEST_TEXT_4 = (
 
 TEST_TEXT_5 = "The mid-terms were horrible. I wish the mid term was less boring."
 
+TEST_TEXT_6 = "Professor Doe was a great instructor."
+
 
 @pytest.fixture
 def doc1():
@@ -76,6 +78,12 @@ def doc5():
     aspects = {"tests": ["mid-term", "mid term"]}
     doc5 = asp.make_doc(TEST_TEXT_5, aspects=aspects)
     return doc5
+
+
+@pytest.fixture
+def doc6():
+    doc6 = asp.make_doc(TEST_TEXT_6, anonymize=True)
+    return doc6
 
 
 def test_function_make_doc(doc1, doc3):
@@ -215,3 +223,10 @@ def test_multi_word_expression_keywords(doc5):
     kws = [kw.lemma_ for kw in doc5._.keywords]
     assertion2 = f"Keywords in doc should {target_kws}"
     assert kws == target_kws, assertion2
+
+
+def test_anonymized(doc6):
+    """Tests that text is being anonymized as intended"""
+    target = "Professor *** was a great instructor."
+    assertion = f"anonymized attribute should be {target}."
+    assert doc6._.anonymized == target, assertion

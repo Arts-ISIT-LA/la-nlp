@@ -25,6 +25,7 @@ def make_doc(
     text: str,
     aspects: dict | str = DEFAULT_ASPECTS,
     parent_span_min_length: int = 7,
+    anonymize: bool = False,
 ) -> Doc:
     """Generates a spacy Doc object via the aspect sentiment pipeline.
 
@@ -37,6 +38,8 @@ def make_doc(
             at la_nlp/data/aspects.toml.
         parent_span_min_length (int, optional): Minimum length from which to
             generate token parent spans. Defaults to 7.
+        anonymize (bool, optional): Indicates whether or not to set the 'anonymized'
+            Doc attribute. Defaults to False.
 
     Raises:
         ValueError: Raised if value passed to aspects is not a file path or
@@ -77,9 +80,15 @@ def make_doc(
             "aspects": aspects,
             "keywords": keywords,
             "parent_span_min_length": parent_span_min_length,
+            "anonymize": anonymize,
         }
     }
-    return NLP(text, component_cfg=cfg)
+
+    disable = ["textcat"]
+    if anonymize == False:
+        disable.append("ner")
+
+    return NLP(text, component_cfg=cfg, disable=disable)
 
 
 @Language.component("aspect_sentiment_pipe")
@@ -88,6 +97,7 @@ def aspect_sentiment_pipe(
     aspects: dict,
     keywords: list,
     parent_span_min_length: int = 7,
+    anonymize: bool = False,
 ) -> Doc:
     """Compiles the pipeline components into a single function.
 
@@ -102,6 +112,8 @@ def aspect_sentiment_pipe(
     doc = components.set_token_parent_span(doc, min_length=parent_span_min_length)
     doc = components.set_span_sentiment(doc)
     doc = components.set_doc_aspect_sentiments(doc, aspects)
+    if anonymize == True:
+        doc = components.set_anonymized(doc)
     return doc
 
 

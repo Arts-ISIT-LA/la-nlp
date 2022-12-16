@@ -97,3 +97,9 @@ def test_function_aspect_sentiments(nlp):
     doc = comp.set_span_sentiment(doc)
     doc = comp.set_doc_aspect_sentiments(doc, base_aspects=ASPECTS)
     assert doc._.aspect_sentiments is not None
+
+
+def test_function_anonymized(nlp):
+    doc = nlp(TEST_TEXT_1)
+    doc = comp.set_anonymized(doc)
+    assert doc._.anonymized is not None
