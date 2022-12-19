@@ -415,10 +415,11 @@ def set_anonymized(
     anonymized = doc.text
 
     for token in doc:
+        if token.ent_type_ == "":
+            continue
         start = token.idx
         stop = token.idx + len(token)
-        if token.ent_type_ != "":
-            anonymized = anonymized[:start] + ("*" * len(token)) + anonymized[stop:]
+        anonymized = anonymized[:start] + ("*" * len(token)) + anonymized[stop:]
 
     doc._.anonymized = anonymized
 
