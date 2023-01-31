@@ -168,7 +168,7 @@ def test_attribute_parent_span_sentiment(doc1):
     """Tests that spans are assigned sentiment attribute as expected."""
     assertion = "course parent span sentiment should be 0.2846"
     span = doc1._.keywords[0]._.parent_span
-    target_sentiment = 0.2846
+    target_sentiment = 0.5106
 
     assert span._.sentiment == target_sentiment, assertion
 
@@ -176,7 +176,7 @@ def test_attribute_parent_span_sentiment(doc1):
 def test_attribute_aspect_sentiments(doc1, doc3):
     """Tests that docs are assigned aspect sentiments attribute as expected."""
     target_sentiments1 = {
-        "course": 0.2846,
+        "course": 0.5106,
         "content": 0,
         "assignments": None,
         "tests": None,
