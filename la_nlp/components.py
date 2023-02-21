@@ -58,7 +58,11 @@ def get_token_parent_span(
             list: List of indices of child tokens (indices are the locations of
                 the children within the parent Doc object).
         """
-        children = [child for child in head.children if child.dep_ != 'cc' and child.dep_ != 'conj']
+        children = [
+            child
+            for child in head.children
+            if child.dep_ != "cc" and child.dep_ != "conj"
+        ]
         indices = [child.i for child in children]
         indices.append(head.i)
         for child in children:
