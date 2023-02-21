@@ -75,7 +75,9 @@ def get_token_parent_span(
     else:
         span = doc[first : last + 1]
     if len(span) < min_length and token.head != token.head.head:
-        span = get_token_parent_span(token.head, min_length=min_length)
+        new_span = get_token_parent_span(token.head, min_length=min_length)
+        if token in new_span:
+            span = new_span
     return span
 
 
