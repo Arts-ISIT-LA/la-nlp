@@ -7,11 +7,11 @@ This file contains documentation for the `la_nlp.pipes` module. `pipes` contains
 Each pipe contains code that will generate a `spacy` `Doc` object with some custom attributes assigned. Basic usage should look something like this:
 
 ```
-from la_nlp.pipes import aspect_sentiment as asp
+from la_nlp.pipes import aspect_sentiment as absa
 
 text = "Some text."
 
-doc = asp.make_doc(text)
+doc = absa.make_doc(text)
 ```
 
 The resulting `Doc` object will contain standard `spacy` attributes along with a number of custom attributes. These attributes are detailed in the pipeline's corresponding section of this document.
@@ -23,10 +23,10 @@ The resulting `Doc` object will contain standard `spacy` attributes along with a
 This module can be imported using the following code:
 
 ```
-from la_nlp.pipes import aspect_sentiment as asp
+from la_nlp.pipes import aspect_sentiment as absa
 ```
 
-### `asp.make_doc(text)`
+### `absa.make_doc(text)`
 
 Generates a `spacy` `Doc` object from the input text via the `aspect_sentiment` NLP pipeline.
 
@@ -72,11 +72,12 @@ The aspects wthin the .toml file will then be automatically converted into the d
 **Typical usage**
 
 ```
-from la_nlp.pipes import aspect_sentiment as asp
+from la_nlp.pipes import aspect_sentiment as absa
 
 text = "I enjoyed the course, but the readings were boring."
-doc = asp.make_doc(text)
+doc = absa.make_doc(text)
 
 print(doc._.aspect_sentiments)
 
-# output: {'course': 0.2846, 'content': -0.4497, 'assignments': None, 'tests': None, 'instructor': None}
+# output: {'course': 0.5106, 'content': -0.3182, 'assignments': None, 'tests': None, 'instructor': None}
+```

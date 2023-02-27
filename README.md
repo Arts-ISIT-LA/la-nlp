@@ -26,11 +26,11 @@ python -m spacy download en_core_web_lg
 As of the current version, the primary way to use this package is with the contained `spacy` pipelines, contained in this `pipes` directory. Typical usage looks something like this:
 
 ```
-from la_nlp.pipes import aspect_sentiment as asp
+from la_nlp.pipes import aspect_sentiment as absa
 
 text = "Some text"
 
-doc = asp.make_doc(text)
+doc = absa.make_doc(text)
 ```
 
 The resulting `doc` object should then contain all attributes created with the selected pipeline. For details about which attributes each pipeline generates, see the pipeline's corresponding file in `docs`.
