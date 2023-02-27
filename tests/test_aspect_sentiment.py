@@ -15,10 +15,7 @@ ASPECTS_1 = utils.get_aspects_from_file(ASPECTS_1_PATH)
 ASPECTS_2_PATH = os.path.join(FILE_DIR, "test_data", "test_aspects_2.toml")
 ASPECTS_2 = utils.get_aspects_from_file(ASPECTS_2_PATH)
 
-ASPECTS_3 = {
-    'Food':['food'],
-    'Service':['service']
-}
+ASPECTS_3 = {"Food": ["food"], "Service": ["service"]}
 
 TEST_TEXT_1 = """
 I enjoyed the course, but the readings were too long and the professor was mean.
@@ -92,10 +89,12 @@ def doc6():
     doc6 = asp.make_doc(TEST_TEXT_6, anonymize=True)
     return doc6
 
-@ pytest.fixture
+
+@pytest.fixture
 def doc7():
     doc = asp.make_doc(TEST_TEXT_7, aspects=ASPECTS_3)
     return doc
+
 
 def test_function_make_doc(doc1, doc3):
     """Tests that the make_doc() function returns a spacy Doc object."""
@@ -174,9 +173,10 @@ def test_attribute_parent_span_length(doc4):
 
     assert span.text == target, assertion
 
+
 def test_attribute_parent_span_contains_child(doc7):
     """Tests that a given token's parent span contains said token.
-    
+
     This test was written following a bug introduced by the addition of logic for the
     parent span algorithm that excludes all tokens with 'cc' and 'conj' dependency tags.
     This logic, combined with the recursive search for spans meeting the specified
@@ -184,11 +184,11 @@ def test_attribute_parent_span_contains_child(doc7):
     without the span containing the token itself.
     """
     assertion = "A parent span should contain the token it is being assigned to."
-    
+
     result = True
     for kw in doc7._.keywords:
         assert kw in kw._.parent_span
-    
+
     assert result == True, assertion
 
 
