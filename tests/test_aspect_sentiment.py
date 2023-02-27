@@ -253,6 +253,20 @@ def test_multi_word_expression_keywords(doc5):
     assert kws == target_kws, assertion2
 
 
+def test_multi_word_expression_keywords_capitalized():
+    """Tests that capitalized multi-word expressions are processed properly.
+
+    See commit [dev e122e24] for original problem.
+    """
+    text = "I am from the United States."
+    aspects = {"United States": ["United States"]}
+    doc = asp.make_doc(text, aspects)
+
+    assertion = "Sentence should contain one keyword."
+
+    assert len(doc._.keywords) == 1, assertion
+
+
 def test_anonymized(doc6):
     """Tests that text is being anonymized as intended"""
     target = "Professor *** was a great instructor."
