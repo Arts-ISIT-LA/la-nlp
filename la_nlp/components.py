@@ -111,7 +111,7 @@ def set_doc_contains_aspect(
     set_extension("contains_aspect", default_val=False)
 
     for token in doc:
-        if token.lemma in base_keywords or token.lemma_.lower() in base_keywords:
+        if token.lemma_ in base_keywords or token.lemma_.lower() in base_keywords:
             doc._.contains_aspect = True
             break
 
