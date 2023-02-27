@@ -111,7 +111,7 @@ def set_doc_contains_aspect(
     set_extension("contains_aspect", default_val=False)
 
     for token in doc:
-        if token.lemma_.lower() in base_keywords:
+        if token.lemma in base_keywords or token.lemma_.lower() in base_keywords:
             doc._.contains_aspect = True
             break
 
@@ -150,7 +150,7 @@ def set_doc_aspects(
                 if aspect in aspects_contained:
                     continue
                 keywords = base_aspects[aspect]
-                if token.lemma_.lower() in keywords:
+                if token.lemma_ in keywords or token.lemma_.lower() in keywords:
                     aspects_contained.append(aspect)
         doc._.aspects = aspects_contained
     return doc
@@ -182,7 +182,7 @@ def set_doc_keywords(
     if doc._.contains_aspect == True:
         keywords = []
         for token in doc:
-            if token.lemma_.lower() in base_keywords:
+            if token.lemma_ in base_keywords or token.lemma_.lower() in base_keywords:
                 keywords.append(token)
         doc._.keywords = keywords
     return doc
@@ -223,7 +223,10 @@ def set_token_aspects(
     for doc_keyword in doc._.keywords:
         for aspect in base_aspects:
             for keyword in base_aspects[aspect]:
-                if doc_keyword.lemma_.lower() == keyword:
+                if (
+                    doc_keyword.lemma_ == keyword
+                    or doc_keyword.lemma_.lower() == keyword
+                ):
                     doc_keyword._.aspect = aspect
                 continue
             if doc_keyword._.aspect != None:
