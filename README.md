@@ -15,7 +15,7 @@ For a history of changes, see our [changelog](./docs/changelog.md) (introduced i
 LA NLP can be easily installed using the following commands:
 
 ```bash
-pip install la_nlp
+pip install la-nlp
 python -m spacy download en_core_web_lg
 ```
 
