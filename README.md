@@ -21,7 +21,7 @@ python -m spacy download en_core_web_lg
 
 As of the current version, the primary way to use this package is with the contained `spacy` pipelines, contained in this `pipes` directory. Typical usage looks something like this:
 
-```
+```Python
 from la_nlp.pipes import aspect_sentiment as absa
 
 text = "Some text"
