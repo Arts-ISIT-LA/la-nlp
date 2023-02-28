@@ -8,6 +8,8 @@ This package is primarily built on top of [spaCy](https://spacy.io/). spaCy uses
 
 As of March 2023, this package is primarily exploratory in nature and contains only [one pipeline for conducting aspect-based sentiment analysis (ABSA)](./docs/docs.md#la_nlppipesaspect_sentiment). However, we hope to include more features over time if there is interest from the UBC learning analytics community and beyond.
 
+For a history of changes, see our [changelog](./docs/changelog.md) (introduced in version `0.4.1`).
+
 ## Installation
 
 LA NLP can be easily installed using the following commands:
