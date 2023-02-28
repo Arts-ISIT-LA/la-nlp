@@ -1,4 +1,6 @@
-## `[0.4.2]` -- 2023-02-28
+## `[0.5.0]` -- 2023-02-28
+
+Package is now open sourced to GitHub and downloadable publicly via pip.
 
 ### Fixed
 
