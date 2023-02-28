@@ -30,14 +30,9 @@ The class was good. I liked the course.
 """
 
 TEST_TEXT_4 = (
-    "Professor Doe was a very passionate lecturer who presented "
-    "the material quite differently from other courses I have taken. The "
-    "only 'problem' I had with his course was how much bias and personal "
-    "opinion they interjected in their lectures. A lot of the material "
-    "presented was really just opinion and we spent too much time on that, "
-    "which did not effectively facilitate learning of the subject matter. "
-    "The extra material they brought in, however, was quite interesting and "
-    "helped provide deeper understanding of certain subjects."
+    "Professor Doe was a very engaging lecturer, but I did not enjoy taking this "
+    "course. The assignments were poorly thought out and the exams drew on material "
+    "primarily from the textbook which was not presented in class."
 )
 
 TEST_TEXT_5 = "The mid-terms were horrible. I wish the mid term was less boring."
@@ -165,10 +160,7 @@ def test_attribute_parent_span_length(doc4):
     """Tests that token parent spans are above minimum length."""
     kw = doc4._.keywords[0]
     span = kw._.parent_span
-    target = (
-        "Professor Doe was a very passionate lecturer who presented the "
-        "material quite differently from other courses I have taken."
-    )
+    target = "Professor Doe was a very engaging lecturer,"
     assertion = f"Span should read {target}"
 
     assert span.text == target, assertion
@@ -187,14 +179,12 @@ def test_attribute_parent_span_contains_child(doc7):
 
     result = True
     for kw in doc7._.keywords:
-        assert kw in kw._.parent_span
-
-    assert result == True, assertion
+        assert kw in kw._.parent_span, assertion
 
 
 def test_attribute_parent_span_sentiment(doc1):
     """Tests that spans are assigned sentiment attribute as expected."""
-    assertion = "course parent span sentiment should be 0.2846"
+    assertion = "course parent span sentiment should be 0.5106"
     span = doc1._.keywords[0]._.parent_span
     target_sentiment = 0.5106
 
