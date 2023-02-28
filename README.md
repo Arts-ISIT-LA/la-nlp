@@ -1,23 +1,19 @@
-# LA NLP
+# **LA NLP**: **L**earning **A**nalytics **N**atural **L**anguage **P**rocessing
 
-This package contains code for various natural language processing (NLP) tasks for the UBC Arts ISIT Learning Analytics team.
+## Overview
+
+LA NLP is a Python package in development at [UBC Arts ISIT](https://isit.arts.ubc.ca/) for the application of natural language processing (NLP) techniques to learning analytics (LA) data.
+
+This package is primarily built on top of [spaCy](https://spacy.io/). spaCy uses a [processing pipeline](https://spacy.io/usage/processing-pipelines) which contains a number of different modular components and allows us to insert our own components into this pipeline. LA NLP relies on this functionality by introducing custom components and combining them into pipelines for specific use cases.
+
+As of March 2023, this package is primarily exploratory in nature and contains only [one pipeline for conducting aspect-based sentiment analysis (ABSA)](./docs/docs.md#la_nlppipesaspect_sentiment). However, we hope to include more features over time if there is interest from the UBC learning analytics community and beyond.
 
 ## Installation
 
-Run the following command to install the package:
+LA NLP can be easily installed using the following commands:
 
-```
-pip install la_nlp --index-url \
-https://<token_name>:<token>@repo.code.ubc.ca/api/v4/projects/879/packages/pypi/simple
-```
-
-Where `<token_name>` can be substituted with your personal access token from GitLab, and `<token>` is the token itself. If you have not set up your personal access tokens, please look at the readme file on our package registry [here](https://repo.code.ubc.ca/arts-isit/la-team/pypi_packages).
-
-### Language model
-
-You will also need to install the `spacy` language model used in the package. To do so, run the following command:
-
-```
+```bash
+pip install la_nlp
 python -m spacy download en_core_web_lg
 ```
 
@@ -33,4 +29,8 @@ text = "Some text"
 doc = absa.make_doc(text)
 ```
 
-The resulting `doc` object should then contain all attributes created with the selected pipeline. For details about which attributes each pipeline generates, see the pipeline's corresponding file in `docs`.
+For detailed usage instructions, see our [documentation](./docs/docs.md)
+
+## Developer documentation
+
+*Coming soon*
