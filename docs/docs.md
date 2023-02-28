@@ -1,0 +1,85 @@
+# `la_nlp.pipes`
+
+The `pipes` module contains the public code available in this package. Each submodule within `pipes` contains an NLP pipeline containing custom components that are inserted into the base [spaCy processing pipeline](https://spacy.io/usage/processing-pipelines).
+
+### Basic usage example
+
+Each pipeline contains code that will generate a spaCy `Doc` object with some custom attributes assigned. Basic usage should look something like this:
+
+```
+from la_nlp.pipes import aspect_sentiment as absa
+
+text = "Some text."
+
+doc = absa.make_doc(text)
+```
+
+The resulting `Doc` object will contain [standard spaCy attributes](https://spacy.io/api/doc) along with a number of custom attributes. These attributes are detailed in the pipeline's corresponding section of this document.
+
+## `la_nlp.pipes.aspect_sentiment`
+
+The `aspect_sentiment` module can be used for conducting aspect-based sentiment analysis (ABSA), an enhanced form of sentiment analysis which allows for the measurement of sentiment toward individual 'aspects' within a text, rather than merely measuring overall sentiment across the entire text.
+
+### Importing
+
+This module can be imported using the following:
+
+```
+from la_nlp.pipes import aspect_sentiment as absa
+```
+
+### `absa.make_doc(text)`
+
+Generates a spaCy `Doc` object from the input text via the `aspect_sentiment` NLP pipeline. This pipeline disables the [`textcat`](https://spacy.io/api/textcategorizer) component of the base spaCy pipeline. [`ner`](https://spacy.io/api/entityrecognizer) is also disabled by default but will be enabled if `anonymize = True`.
+
+**Parameters**
+
+**`text`** (*str*) -- The text to generate a `Doc` from.
+<br>
+**`aspects`** (*dict* or *str*, optional) -- A dictionary of aspects and corresponding keywords to use for analysis of the input text, or the path to a .toml file containing the aspect-keyword mappings. If no argument is passed, the module will use the default aspects in  `la_nlp/data/aspects.toml`. If a dict, should take following form:
+
+```
+{
+    'aspect1': ['keyword1', 'keyword2', 'keyword3'],
+    'aspect2': ['keyword4', 'keyword5'],
+}
+```
+In the above case, the text will be searched for all references to 'keyword4' and 'keyword5', and map their sentiments to the 'aspect2'.
+
+If passing a path, the .toml file should take the following form:
+
+```
+aspect1 = ['keyword1', 'keyword2', 'keyword3']
+aspect2 = ['keyword4', 'keyword5']
+```
+The aspects wthin the .toml file will then be automatically converted into the dict described above.
+<br>
+**`parent_span_min_length`** (*int*, optional) -- The minimum length for parent spans upon which sentiment scores will be calculated. Sometimes the model evaluates the parent span of a word to be exceptionally short (sometimes only 'the \*aspect\*') which is obviously not very useful. This parameter allows you to set a minimum length for these spans. Defaults to 7.
+<br>
+**`anonymize`** (*bool*, optional) -- Tells the pipeline whether or not to assign the `Doc._.anonymized` attribute. If `True`, the spaCy [`ner`](https://spacy.io/api/entityrecognizer) component will be enabled which will slow performance. Defaults to `False`.
+
+**Returns**
+
+`doc` -- A spaCy `Doc` object with the following custom attributes assigned for ABSA:
+
+* `Doc._.contains_aspect` (*bool*) -- True if `Doc` contains any of the keywords passed with the `aspects` parameter. False if none were found.
+* `Doc._.aspects` (*list*) -- A list of all aspects found within the text.
+* `Doc._.keywords` (*list*) -- A list of spaCy `Token` objects whose lemma correspond to the keywords passed via the `aspects` parameter.
+* `Token._.aspect` (*str*) -- The corresponding aspect for each keyword found in the text. This attribute is assigned to all `Token` objects, but will return `None` for all non-keyword tokens.
+* `Token._.parent_span` (*Span*) -- A spaCy `Span` object with the segment of the text that contains the token. This attribute is assigned to all `Token` objects, but will return `None` for all non-keyword tokens due to performance. This behaviour can be disabled by directly calling the `parent_span()` function in `la_nlp.components`.
+* `Span._.sentiment` (*float*) -- The compound sentiment score calculated for the corresponding `Span` object using VADER. This attribute is assigned to all `Span` objects, but will return `None` for all spans that are **not** parent spans of a keyword. This behaviour can be disabled by directly calling the `parent_span_sentiment()` function in `la_nlp.components`.
+* `Doc._.aspect_sentiments` (*dict*) -- Returns a dictionary of each aspect passed into the `make_doc()` function with corresponding sentiment scores. Aspects with no keywords found in the text will be assigned a `None` value. Calculation of these scores is done by taking the mean of the sentiments of all keywords corresponding to each aspect.
+* `Doc._.anonymized` (*str*) -- Anonymized version of the input text. As the anonymized text is generated by replacing all named entities in the input text with asterisks, non-person named entities will also be replaced. Only computed if `anonymize=True` in `make_doc()` parameters.
+
+**Typical usage**
+
+```
+from la_nlp.pipes import aspect_sentiment as absa
+
+text = "I enjoyed the course, but the readings were boring."
+doc = absa.make_doc(text)
+
+print(doc._.aspect_sentiments)
+
+# output: {'course': 0.5106, 'content': -0.3182, 'assignments': None, 'tests': None, 'instructor': None}
+```
