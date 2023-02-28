@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "la_nlp"
 version = "0.4.2"
 authors = [
-    { name="William Strausser", email="william.strausser@ubc.ca" },
+    { name="William Strausser", email="william.e.strausser@gmail.com" },
 ]
 description = "NLP tools for learning analytics at the University of British Columbia."
 requires-python = ">=3.11.0"
