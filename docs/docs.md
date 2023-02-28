@@ -6,7 +6,7 @@ The `pipes` module contains the public code available in this package. Each subm
 
 Each pipeline contains code that will generate a spaCy `Doc` object with some custom attributes assigned. Basic usage should look something like this:
 
-```
+```Python
 from la_nlp.pipes import aspect_sentiment as absa
 
 text = "Some text."
@@ -24,7 +24,7 @@ The `aspect_sentiment` module can be used for conducting aspect-based sentiment 
 
 This module can be imported using the following:
 
-```
+```Python
 from la_nlp.pipes import aspect_sentiment as absa
 ```
 
@@ -38,7 +38,7 @@ Generates a spaCy `Doc` object from the input text via the `aspect_sentiment` NL
 <br>
 **`aspects`** (*dict* or *str*, optional) -- A dictionary of aspects and corresponding keywords to use for analysis of the input text, or the path to a .toml file containing the aspect-keyword mappings. If no argument is passed, the module will use the default aspects in  `la_nlp/data/aspects.toml`. If a dict, should take following form:
 
-```
+```Python
 {
     'aspect1': ['keyword1', 'keyword2', 'keyword3'],
     'aspect2': ['keyword4', 'keyword5'],
@@ -48,7 +48,7 @@ In the above case, the text will be searched for all references to 'keyword4' an
 
 If passing a path, the .toml file should take the following form:
 
-```
+```toml
 aspect1 = ['keyword1', 'keyword2', 'keyword3']
 aspect2 = ['keyword4', 'keyword5']
 ```
@@ -73,7 +73,7 @@ The aspects wthin the .toml file will then be automatically converted into the d
 
 **Typical usage**
 
-```
+```Python
 from la_nlp.pipes import aspect_sentiment as absa
 
 text = "I enjoyed the course, but the readings were boring."
