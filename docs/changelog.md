@@ -1,3 +1,10 @@
+## `[0.4.2]` -- 2023-02-28
+
+### Fixed
+
+- Fixed bug which allowed a token to be assigned a parent span that excluded the token itself.
+
+
 ## `[0.4.1]` -- 2023-02-21
 
 ### Changed
